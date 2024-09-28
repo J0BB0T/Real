@@ -1721,6 +1721,3 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 notif("RealMM2 Loaded.", 5)
-LocalPlayer.CharacterRemoving:Connect(function()
-	RealMM2:Destroy()
-end)
