@@ -1221,18 +1221,25 @@ RealMM2.Name = randomString()
 RealMM2.Parent = game.CoreGui
 WS.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 WS.PlaceholderText = "WalkSpeed Multiplier"
+WS.ClearTextOnFocus = false
 JP.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 JP.PlaceholderText = "JumpPower Multiplier"
+JP.ClearTextOnFocus = false
 F.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 F.PlaceholderText = "Fling Player"
+F.ClearTextOnFocus = false
 ST.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 ST.PlaceholderText = "Stab Player"
+ST.ClearTextOnFocus = false
 ShT.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 ShT.PlaceholderText = "Shoot Player"
+ShT.ClearTextOnFocus = false
 TTT.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 TTT.PlaceholderText = "Teleport To Player"
+TTT.ClearTextOnFocus = false
 FS.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
 FS.PlaceholderText = "Fly Speed"
+FS.ClearTextOnFocus = false
 Main.Draggable = true
 Other.Draggable = true
 Settings.Draggable = true
@@ -1338,6 +1345,7 @@ F.FocusLost:Connect(function(EP)
 			game:FindService("RunService").Heartbeat:wait()
 		until not Target.Character:FindFirstChild("Head")
 	end
+	F.Text = ""
 end)
 FTT.MouseButton1Click:Connect(function()
 	ToggleButton(FTT)
@@ -1575,21 +1583,23 @@ FB.MouseButton1Click:Connect(function()
 end)
 KA.MouseButton1Click:Connect(function()
 	local Tool = LocalPlayer.Backpack:FindFirstChild("Knife")
-	LocalPlayer.Character.Humanoid:EquipTool(Tool)
 	for i, v in game:GetService("Players"):GetPlayers() do
 		if v.UserId == LocalPlayer.UserId then continue end
 		if v.Character == nil then continue end
 		if Tool == nil then return end
 		v.Character:FindFirstChildOfClass('Humanoid').Sit = false
 		wait()
-		local Root = v:FindFirstChild('HumanoidRootPart') or v:FindFirstChild('Torso') or v:FindFirstChild('UpperTorso')
-		Root.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
-		Tool:Activate()
+		local Heartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+			LocalPlayer.Character.Humanoid:EquipTool(Tool)
+			v.Character:PivotTo(LocalPlayer.Character.HumanoidRootPart.CFrame)
+			Tool:Activate()
+		end)
+		task.wait(2)
+		Heartbeat:Disconnect()
 	end
 end)
 SS.MouseButton1Click:Connect(function()
 	local Tool = LocalPlayer.Backpack:FindFirstChild("Knife")
-	LocalPlayer.Character.Humanoid:EquipTool(Tool)
 	for i, v in game:GetService("Players"):GetPlayers() do
 		if v.UserId == LocalPlayer.UserId then continue end
 		if v.Character == nil then continue end
@@ -1597,9 +1607,13 @@ SS.MouseButton1Click:Connect(function()
 		if Tool == nil then return end
 		v.Character:FindFirstChildOfClass('Humanoid').Sit = false
 		wait()
-		local Root = v:FindFirstChild('HumanoidRootPart') or v:FindFirstChild('Torso') or v:FindFirstChild('UpperTorso')
-		Root.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
-		Tool:Activate()
+		local Heartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+			LocalPlayer.Character.Humanoid:EquipTool(Tool)
+			v.Character:PivotTo(LocalPlayer.Character.HumanoidRootPart.CFrame)
+			Tool:Activate()
+		end)
+		task.wait(2)
+		Heartbeat:Disconnect()
 	end
 end)
 ST.FocusLost:Connect(function(EP)
@@ -1609,10 +1623,14 @@ ST.FocusLost:Connect(function(EP)
 	Target = Target.Character
 	local Tool = LocalPlayer.Backpack:FindFirstChild("Knife")
 	if Tool == nil then return end
-	LocalPlayer.Character.Humanoid:EquipTool(Tool)
-	local Root = Target:FindFirstChild('HumanoidRootPart') or Target:FindFirstChild('Torso') or Target:FindFirstChild('UpperTorso')
-	Root.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
-	Tool:Activate()
+	ST.Text = ""
+	local Heartbeat = game:GetService("RunService").Heartbeat:Connect(function()
+		LocalPlayer.Character.Humanoid:EquipTool(Tool)
+		Target.Character:PivotTo(LocalPlayer.Character.HumanoidRootPart.CFrame)
+		Tool:Activate()
+	end)
+	task.wait(2)
+	Heartbeat:Disconnect()
 end)
 TTT.FocusLost:Connect(function(EP)
 	if not EP then return end
@@ -1620,6 +1638,7 @@ TTT.FocusLost:Connect(function(EP)
 	if Target == nil then notif("Player Not Found.") return end
 	Target = Target.Character
 	if Target == nil then return end
+	ST.Text = ""
 	LocalPlayer.Character:PivotTo(Target.HumanoidRootPart.CFrame)
 end)
 IV.MouseButton1Click:Connect(function()
@@ -1702,3 +1721,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 notif("RealMM2 Loaded.", 5)
+LocalPlayer.CharacterRemoving:Connect(function()
+	RealMM2:Destroy()
+end)
