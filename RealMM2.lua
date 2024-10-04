@@ -16,7 +16,7 @@ RealMM2.AutoLocalize = false
 RealMM2.ClipToDeviceSafeArea = false
 RealMM2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 RealMM2.ScreenInsets = Enum.ScreenInsets.None
-RealMM2.Parent = game:GetService("StarterGui"):WaitForChild("RealMM2")
+RealMM2.Parent = game:FindService("CoreGui")
 
 local Main = Instance.new("Frame")
 Main.Name = "Main"
@@ -1721,3 +1721,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 notif("RealMM2 Loaded.", 5)
+LocalPlayer.CharacterRemoving:Connect(function()
+	RealMM2:Destroy()
+end)
