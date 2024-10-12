@@ -1,12 +1,10 @@
-local function notif(str,dur)
-	game:FindService("StarterGui"):SetCore("SendNotification", {
-		Title = "RealMM2",
-		Text = str,
-		Icon = "rbxassetid://0000000000",
-		Duration = dur or 3
-	})
-end
-notif("Loading...")
+game:FindService("StarterGui"):SetCore("SendNotification", {
+	Title = "RealMM2",
+	Text =  "Loading...",
+	Icon = "rbxassetid://0000000000",
+	Duration = 3
+})
+
 --<[GUI]>--
 local RealMM2 = Instance.new("ScreenGui")
 RealMM2.Name = "RealMM2"
@@ -16,7 +14,7 @@ RealMM2.AutoLocalize = false
 RealMM2.ClipToDeviceSafeArea = false
 RealMM2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 RealMM2.ScreenInsets = Enum.ScreenInsets.None
-RealMM2.Parent = game:FindService("CoreGui")
+RealMM2.Parent = nil
 
 local Main = Instance.new("Frame")
 Main.Name = "Main"
@@ -1246,6 +1244,14 @@ Settings.Draggable = true
 Visual.Draggable = true
 
 --<[CODE]>--
+local function notif(str,dur)
+	game:FindService("StarterGui"):SetCore("SendNotification", {
+		Title = "RealMM2",
+		Text = str,
+		Icon = "rbxassetid://0000000000",
+		Duration = dur or 3
+	})
+end
 local function ToggleButton(inp)
 	if inp.BackgroundColor3 == Color3.new(1.00, 0, 0) then
 		inp.BackgroundColor3 = Color3.new(0, 1.00, 0)
@@ -1721,6 +1727,3 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 notif("RealMM2 Loaded.", 5)
-LocalPlayer.CharacterRemoving:Connect(function()
-	RealMM2:Destroy()
-end)
