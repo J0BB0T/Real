@@ -1206,6 +1206,63 @@ TextLabel.Position = UDim2.new(0.50, 0.00, 0.50, 0.00)
 TextLabel.Parent = TopBar
 
 --<[OTHER]>--
+local DrawingGui = Instance.new("ScreenGui")
+DrawingGui.Parent = RealMM2
+DrawingGui.ResetOnSpawn = false
+DrawingGui.IgnoreGuiInset = true
+DrawingGui.Name = "DrawingLib"
+local drawinglib = {}
+local function UNCDrawLine(PointA:Vector2, PointB:Vector2, Color:Color3, Thickness:number, OutSize:number, OutColor:Color3, Parent:Instance)
+	if Color == nil then
+		Color = Color3.new(255, 255, 255)
+	end
+	if Thickness == nil then
+		Thickness = 4
+	end
+	if OutSize == nil then
+		OutSize = 1
+	end
+	if OutColor == nil then
+		OutColor = Color3.fromRGB(0, 0, 0)
+	end
+	if Parent == nil then
+		Parent = DrawingGui
+	end
+	local Distance = math.sqrt(math.pow(PointA.X-PointB.X, 2) + math.pow(PointA.Y-PointB.Y, 2))
+	local Center = Vector2.new((PointA.X + PointB.X)/2, (PointA.Y + PointB.Y)/2)    
+	local Rotation = math.atan2(PointA.Y - PointB.Y, PointA.X - PointB.X)
+	local LineThickness = Thickness
+	local Line = Instance.new("Frame")
+	Line.Size = UDim2.new(0, Distance, 0, LineThickness)
+	Line.AnchorPoint = Vector2.new(0.5,0.5)
+	Line.Position = UDim2.new(0, Center.X, 0, Center.Y)
+	Line.Rotation = math.deg(Rotation)
+	Line.Parent = Parent
+	Line.BackgroundColor3 = Color
+	Line.BorderSizePixel = OutSize
+	Line.BorderColor3 = OutColor
+	game:GetService("RunService").Heartbeat:Wait()
+	Line:Destroy()
+end
+drawinglib.new = function(Type)
+	if Type == "Line" then
+		local Properties = {}
+		Properties.From = Vector2.new(0, 0)
+		Properties.To = Vector2.new(0, 0)
+		Properties.Color = Color3.fromRGB(255, 255, 255)
+		Properties.Thickness = 2
+		Properties.OutlineSize = 0
+		Properties.OutlineColor = Color3.fromRGB(0, 0, 0)
+		local HB = game:GetService("RunService").Heartbeat:Connect(function()
+			UNCDrawLine(Properties.From, Properties.To, Properties.Color, Properties.Thickness, Properties.OutlineSize, Properties.OutlineColor)
+		end)
+		Properties.Destroy = function()
+			HB:Disconnect()
+		end
+		return Properties
+	end
+end
+
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local function randomString()
 	local length = math.random(10,20)
@@ -1308,6 +1365,7 @@ local Noclipping = nil
 local NoclipEnabled = false
 local Clip = true
 local Waiting = false
+local Tracers = false
 wait(0.1)
 game:GetService("RunService").Stepped:Connect(function()
 	if not Waiting then
@@ -1321,6 +1379,49 @@ game:GetService("RunService").Stepped:Connect(function()
 		end
 	end
 end)
+local function Create(v)
+	local camera = workspace.CurrentCamera
+	local Tracer = drawinglib.new("Line")
+	local Hue = 0
+	game:GetService("RunService").Heartbeat:Connect(function()
+		if Tracers then
+			if v:FindFirstChild("HumanoidRootPart") == nil then return end
+			local Vector, OnScreen = camera:WorldToViewportPoint(v.HumanoidRootPart.Position)
+			if OnScreen then
+				Tracer.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
+				Tracer.To = Vector2.new(Vector.X, Vector.Y)
+				Tracer.Thickness = 2
+				Hue += 0.01
+				Tracer.Color = Color3.fromHSV(Hue, 1, 1)
+				if Hue > 1 then
+					Hue = 0
+				end
+			else
+				Tracer.Thickness = 0
+			end
+		else
+			Tracer.Thickness = 0
+		end
+	end)
+end
+for i, v in game:GetService("Players"):GetPlayers() do
+	if v == LocalPlayer then continue end
+	v.CharacterAdded:Connect(function(model)
+		task.spawn(Create, model)
+	end)
+	if v.Character then
+		task.spawn(Create, model)
+	end
+end
+game:GetService("Players").PlayerAdded:Connect(function(plr)
+	if plr.Character then
+		task.spawn(Create, plr.Character)
+	end
+	plr.CharacterAdded:Connect(function(model)
+		task.spawn(Create, model)
+	end)
+end)
+
 WS.FocusLost:Connect(function(EP)
 	if not EP then return end
 	if LocalPlayer.Character == nil then return end
@@ -1587,6 +1688,10 @@ FB.MouseButton1Click:Connect(function()
 		game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(128, 128, 128)
 	end)
 end)
+TT.MouseButton1Click:Connect(function()
+	ToggleButton(TT)
+	Tracers = not Tracers
+end)
 KA.MouseButton1Click:Connect(function()
 	local Tool = LocalPlayer.Backpack:FindFirstChild("Knife")
 	for i, v in game:GetService("Players"):GetPlayers() do
@@ -1687,8 +1792,9 @@ IV.MouseButton1Click:Connect(function()
 end)
 FS.FocusLost:Connect(function(EP)
 	if not EP then return end
-	if type(tonumber(FS.Text)) ~= "number" then return end
+	if tonumber(FS.Text) == nil then return end
 	FlySpeed = tonumber(FS.Text)
+	FS.Text = ""
 end)
 TR.MouseButton1Click:Connect(function()
 	TR.Text = "Press Any Button"
