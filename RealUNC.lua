@@ -7,9 +7,9 @@ local function PrintResults()
 		return identifyexecutor()
 	end)
 	if suc then
-		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: ".. out.. "\n| Version 1.1"
+		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: ".. out.. "\n| Script Version 1.1\n| Roblox Version ".. Version()
 	else
-		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: Unknown\n|Version 1.1"
+		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: Unknown\n| Script Version 1.1\n| Roblox Version ".. Version()
 	end
 	for i, v in ipairs(Results) do
 		Output = Output.. "\n".. v
