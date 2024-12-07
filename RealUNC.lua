@@ -1,15 +1,20 @@
 local Passes = 0
 local Fails = 0
 local Results = {}
+local Output = ""
 local function PrintResults()
-  if pcall(function() identifyexecutor() end) then
-    local Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: ".. identifyexecutor().. "\n| Version 1.1"
-  else
-    local Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: Unknown\n|Version 1.1"
+	local suc, out = pcall(function()
+		return identifyexecutor()
+	end)
+	if suc then
+		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: ".. out.. "\n| Version 1.1"
+	else
+		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: Unknown\n|Version 1.1"
+	end
 	for i, v in ipairs(Results) do
 		Output = Output.. "\n".. v
 	end
-	local rate = math.round(Passes / (Passes + Fails) * 100)
+	local rate = math.floor(Passes / (Passes + Fails) * 100)
 	local outOf = Passes .. " out of " .. (Passes + Fails)
 	Output = Output.. "\n|\n|-------------------\n|UNC Summary \n|✅ Tested with a " .. tostring(rate) .. "% success rate (" .. outOf .. ") \n|⛔ " .. Fails .. " tests failed"
 	print(Output)
