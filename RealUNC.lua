@@ -735,7 +735,7 @@ end))
 table.insert(Results, "|\n|-- Uncategorised --")
 
 Test("httpget", pcall(function()
-	return game:HttpGet("https://httpbin.org/user-agent")
+	return game:HttpGet("https://checkip.amazonaws.com") ~= nil
 end))
 
 Test("saveinstance", pcall(function()
