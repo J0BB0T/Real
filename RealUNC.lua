@@ -221,7 +221,7 @@ Test("crypt.generatekey", pcall(function()
 	return #crypt.base64decode(crypt.generatekey) == 32
 end))
 
-Test("crypt.generatehask", pcall(function()
+Test("crypt.hash", pcall(function()
 	local algorithms = {'sha1', 'sha384', 'sha512', 'md5', 'sha256', 'sha3-224', 'sha3-256', 'sha3-512'}
 	for _, algorithm in ipairs(algorithms) do
 		local hash = crypt.hash("test", algorithm)
