@@ -168,14 +168,6 @@ Test("rconsoleclear", pcall(function()
 	rconsoleclear()
 end))
 
-Test("rconsolecreate", pcall(function()
-	rconsolecreate()
-end))
-
-Test("rconsoledestroy", pcall(function()
-	rconsoledestroy()
-end))
-
 Test("rconsoleinput", pcall(function()
 	rconsoleinput()
 end))
@@ -188,6 +180,13 @@ Test("rconsolesettitle", pcall(function()
 	rconsolesettitle()
 end))
 
+Test("rconsolewarn", pcall(function()
+	rconsolewarn("Success")
+end))
+
+Test("rconsoleerr", pcall(function()
+	rconsoleerr("Success")
+end))
 -- CRYPT --
 table.insert(Results, "|\n|-- Crypt --")
 
