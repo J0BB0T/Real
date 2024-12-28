@@ -451,7 +451,7 @@ RealFlight.Parent = LocalPlayer:WaitForChild("PlayerGui")
 RealFlight.Enabled = true
 pcall(function()
     RealFlight.Parent = game.CoreGui
-)
+end)
 
 game:GetService("StarterGui"):SetCore("SendNotification", {
 	["Title"] = "RealFlight",
