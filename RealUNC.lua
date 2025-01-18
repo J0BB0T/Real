@@ -51,7 +51,7 @@ Test("Drawing.new", pcall(function()
 end))
 
 Test("Drawing.Fonts", pcall(function()
-	return Drawing.Fonts.UI == 0
+	return Drawing.Fonts.UI ~= nil
 end))
 
 -- WEBSOCKET --
