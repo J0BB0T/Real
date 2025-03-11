@@ -428,48 +428,117 @@ Test("isrbxactive", pcall(function()
 end))
 
 Test("mouse1click", pcall(function()
+	local Click = false
+	local ScreenGui = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer.PlayerGui)
+	ScreenGui.IgnoreGuiInset = true
+	ScreenGui.ResetOnSpawn = false
+	ScreenGui.DisplayOrder = math.huge
+	local Button = Instance.new("TextButton")
+	Button.Text = ""
+	Button.BackgroundTransparency = 1
+	Button.AnchorPoint = Vector2.new(0.5, 0.5)
+	Button.Size = UDim2.new(1, 0, 1, 0)
+	Button.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Button.Parent = ScreenGui
+	local Event = Button.MouseButton1Click:Connect(function()
+		Click = true
+	end)
+	Event:Disconnect()
 	mouse1click()
-	return true
+	return Click
 end))
 
 Test("mouse1press", pcall(function()
+	local Click = false
+	local Event = game:GetService("Players").LocalPlayer:GetMouse().Button1Down:Connect(function()
+		Click = true
+	end)
 	mouse1press()
-	return true
+	Event:Disconnect()
+	return Click
 end))
 
 Test("mouse1release", pcall(function()
+	local Click = false
+	local Event = game:GetService("Players").LocalPlayer:GetMouse().Button1Up:Connect(function()
+		Click = true
+	end)
 	mouse1release()
-	return true
+	Event:Disconnect()
+	return Click
 end))
 
 Test("mouse2click", pcall(function()
-	mouse2click()
-	return true
+	local Click = false
+	local Event = game:GetService("Players").LocalPlayer:GetMouse().Button2Down:Connect(function()
+		Click = true
+	end)
+	mouse2press()
+	Event:Disconnect()
+	return Click
 end))
 
 Test("mouse2press", pcall(function()
-	mouse2press()
-	return true
+	local Click = false
+	local ScreenGui = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer.PlayerGui)
+	ScreenGui.IgnoreGuiInset = true
+	ScreenGui.ResetOnSpawn = false
+	ScreenGui.DisplayOrder = math.huge
+	local Button = Instance.new("TextButton")
+	Button.Text = ""
+	Button.BackgroundTransparency = 1
+	Button.AnchorPoint = Vector2.new(0.5, 0.5)
+	Button.Size = UDim2.new(1, 0, 1, 0)
+	Button.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Button.Parent = ScreenGui
+	local Event = Button.MouseButton1Click:Connect(function()
+		Click = true
+	end)
+	Event:Disconnect()
+	mouse2click()
+	return Click
 end))
 
 Test("mouse2release", pcall(function()
+	local Click = false
+	local Event = game:GetService("Players").LocalPlayer:GetMouse().Button2Up:Connect(function()
+		Click = true
+	end)
 	mouse2release()
-	return true
+	Event:Disconnect()
+	return Click
 end))
 
 Test("mousemoveabs", pcall(function()
-	mousemoveabs()
-	return true
+	local X = game:GetService("Players").LocalPlayer:GetMouse().X
+	local Y = game:GetService("Players").LocalPlayer:GetMouse().Y
+	mousemoveabs(X + 20, Y + 20)
+	return (game:GetService("Players").LocalPlayer:GetMouse().X - X) > 10 and (game:GetService("Players").LocalPlayer:GetMouse().Y - Y) > 10
 end))
 
 Test("mousemoverel", pcall(function()
-	mousemoverel()
-	return true
+	local X = game:GetService("Players").LocalPlayer:GetMouse().X
+	local Y = game:GetService("Players").LocalPlayer:GetMouse().Y
+	mousemoverel(20, 20)
+	return (game:GetService("Players").LocalPlayer:GetMouse().X - X) > 10 and (game:GetService("Players").LocalPlayer:GetMouse().Y - Y) > 10
 end))
 
 Test("mousescroll", pcall(function()
-	mousescroll()
-	return true
+	local ScreenGui = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer.PlayerGui)
+	ScreenGui.IgnoreGuiInset = true
+	ScreenGui.ResetOnSpawn = false
+	ScreenGui.DisplayOrder = math.huge
+	local Scroll = Instance.new("ScrollingFrame")
+	Scroll.Text = ""
+	Scroll.BackgroundTransparency = 1
+	Scroll.AnchorPoint = Vector2.new(0.5, 0.5)
+	Scroll.Size = UDim2.new(1, 0, 1, 0)
+	Scroll.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Scroll.CanvasSize = UDim2.new(10, 0, 10, 0)
+	Scroll.CanvasPosition = Vector2.new(0, 0)
+	Scroll.Parent = ScreenGui
+	mousescroll(100)
+	return Scroll.CanvasPosition > Vector2.new(0, 0)
 end))
 
 -- INSTANCES --
@@ -734,7 +803,7 @@ end))
 table.insert(Results, "|\n|-- Uncategorised --")
 
 Test("httpget", pcall(function()
-	return game:HttpGet("https://checkip.amazonaws.com") ~= nil
+	return game:HttpGet("https://google.com") ~= nil
 end))
 
 Test("saveinstance", pcall(function()
