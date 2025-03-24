@@ -8,6 +8,7 @@ Scripts:
 2. RealUNC Test
 3. RealMM2
 4. RealParry (Blade Ball)
+5. RealLSE (RealLS For Executors)
 
 RealFlight (Let Others Fly):
 loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealFlight.lua"))()
@@ -18,5 +19,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/head
 RealMM2:
 loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealMM2.lua"))()
 
-RealParry (Blade Ball)
+RealParry (Blade Ball):
 loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealParry.lua"))()
+
+RealLSE:
+loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealLSE.lua"))()
