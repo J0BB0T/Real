@@ -3,7 +3,6 @@ RealLSE.Name = "RealLSE"
 RealLSE.IgnoreGuiInset = true
 RealLSE.ResetOnSpawn = false
 RealLSE.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-RealLSE.Enabled = false
 RealLSE.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local Overlay = Instance.new("Frame")
@@ -372,6 +371,268 @@ Title3.TextWrapped = true
 Title3.RichText = true
 Title3.Parent = Output
 
+local ScriptHub = Instance.new("CanvasGroup")
+ScriptHub.Name = "ScriptHub"
+ScriptHub.Position = UDim2.new(0.75, 0, 0.25, 0)
+ScriptHub.Size = UDim2.new(0.216, 0, 0.2245, 0)
+ScriptHub.BackgroundColor3 = Color3.new(0.0784314, 0.0784314, 0.0784314)
+ScriptHub.BorderSizePixel = 0
+ScriptHub.BorderColor3 = Color3.new(0, 0, 0)
+ScriptHub.AnchorPoint = Vector2.new(0.5, 0.5)
+ScriptHub.Active = true
+ScriptHub.Parent = Overlay
+
+local UICorner4 = Instance.new("UICorner")
+UICorner4.Name = "UICorner"
+UICorner4.CornerRadius = UDim.new(0.025, 0)
+UICorner4.Parent = ScriptHub
+
+local Container4 = Instance.new("Frame")
+Container4.Name = "Container"
+Container4.Position = UDim2.new(0.5, 0, 0.552072, 0)
+Container4.Size = UDim2.new(1, 0, 0.895856, 0)
+Container4.BackgroundColor3 = Color3.new(0, 0, 0)
+Container4.BorderSizePixel = 0
+Container4.BorderColor3 = Color3.new(0, 0, 0)
+Container4.AnchorPoint = Vector2.new(0.5, 0.5)
+Container4.Active = true
+Container4.Parent = ScriptHub
+
+local InfYield = Instance.new("TextButton")
+InfYield.Name = "InfYield"
+InfYield.Position = UDim2.new(0.125, 0, 0.147113, 0)
+InfYield.Size = UDim2.new(0.25, 0, 0.1, 0)
+InfYield.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+InfYield.BorderSizePixel = 0
+InfYield.BorderColor3 = Color3.new(0, 0, 0)
+InfYield.AnchorPoint = Vector2.new(0.5, 0.5)
+InfYield.Text = "Infinite Yield"
+InfYield.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+InfYield.TextSize = 14
+InfYield.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+InfYield.TextScaled = true
+InfYield.TextWrapped = true
+InfYield.Parent = Container4
+
+local Tools = Instance.new("TextLabel")
+Tools.Name = "Tools"
+Tools.Position = UDim2.new(0.125, 0, 0.0496198, 0)
+Tools.Size = UDim2.new(0.25, 0, 0.1, 0)
+Tools.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+Tools.BorderSizePixel = 0
+Tools.BorderColor3 = Color3.new(0, 0, 0)
+Tools.AnchorPoint = Vector2.new(0.5, 0.5)
+Tools.Selectable = true
+Tools.Active = true
+Tools.Text = "Tools"
+Tools.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+Tools.TextSize = 14
+Tools.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Tools.TextScaled = true
+Tools.TextWrapped = true
+Tools.Parent = Container4
+
+local DEX = Instance.new("TextButton")
+DEX.Name = "DEX"
+DEX.Position = UDim2.new(0.125, 0, 0.244607, 0)
+DEX.Size = UDim2.new(0.25, 0, 0.1, 0)
+DEX.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+DEX.BorderSizePixel = 0
+DEX.BorderColor3 = Color3.new(0, 0, 0)
+DEX.AnchorPoint = Vector2.new(0.5, 0.5)
+DEX.Text = "DEX Explorer"
+DEX.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+DEX.TextSize = 14
+DEX.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+DEX.TextScaled = true
+DEX.TextWrapped = true
+DEX.Parent = Container4
+
+local FChat = Instance.new("TextButton")
+FChat.Name = "FChat"
+FChat.Position = UDim2.new(0.125, 0, 0.3421, 0)
+FChat.Size = UDim2.new(0.25, 0, 0.1, 0)
+FChat.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+FChat.BorderSizePixel = 0
+FChat.BorderColor3 = Color3.new(0, 0, 0)
+FChat.AnchorPoint = Vector2.new(0.5, 0.5)
+FChat.Text = "Fake Chat"
+FChat.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+FChat.TextSize = 14
+FChat.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+FChat.TextScaled = true
+FChat.TextWrapped = true
+FChat.Parent = Container4
+
+local FEYGUITE = Instance.new("TextButton")
+FEYGUITE.Name = "FEYGUITE"
+FEYGUITE.Position = UDim2.new(0.125, 0, 0.439593, 0)
+FEYGUITE.Size = UDim2.new(0.25, 0, 0.1, 0)
+FEYGUITE.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+FEYGUITE.BorderSizePixel = 0
+FEYGUITE.BorderColor3 = Color3.new(0, 0, 0)
+FEYGUITE.AnchorPoint = Vector2.new(0.5, 0.5)
+FEYGUITE.Text = "FE Yeet Gui TE"
+FEYGUITE.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+FEYGUITE.TextSize = 14
+FEYGUITE.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+FEYGUITE.TextScaled = true
+FEYGUITE.TextWrapped = true
+FEYGUITE.Parent = Container4
+
+local ScriptH = Instance.new("TextLabel")
+ScriptH.Name = "ScriptH"
+ScriptH.Position = UDim2.new(0.5, 0, 0.05, 0)
+ScriptH.Size = UDim2.new(0.25, 0, 0.1, 0)
+ScriptH.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+ScriptH.BorderSizePixel = 0
+ScriptH.BorderColor3 = Color3.new(0, 0, 0)
+ScriptH.AnchorPoint = Vector2.new(0.5, 0.5)
+ScriptH.Selectable = true
+ScriptH.Active = true
+ScriptH.Text = "Script Hubs"
+ScriptH.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+ScriptH.TextSize = 14
+ScriptH.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+ScriptH.TextScaled = true
+ScriptH.TextWrapped = true
+ScriptH.Parent = Container4
+
+local SkyH = Instance.new("TextButton")
+SkyH.Name = "SkyH"
+SkyH.Position = UDim2.new(0.5, 0, 0.147, 0)
+SkyH.Size = UDim2.new(0.25, 0, 0.1, 0)
+SkyH.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+SkyH.BorderSizePixel = 0
+SkyH.BorderColor3 = Color3.new(0, 0, 0)
+SkyH.AnchorPoint = Vector2.new(0.5, 0.5)
+SkyH.Text = "Sky Hub"
+SkyH.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+SkyH.TextSize = 14
+SkyH.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SkyH.TextScaled = true
+SkyH.TextWrapped = true
+SkyH.Parent = Container4
+
+local AntiH = Instance.new("TextButton")
+AntiH.Name = "AntiH"
+AntiH.Position = UDim2.new(0.5, 0, 0.238759, 0)
+AntiH.Size = UDim2.new(0.25, 0, 0.1, 0)
+AntiH.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+AntiH.BorderSizePixel = 0
+AntiH.BorderColor3 = Color3.new(0, 0, 0)
+AntiH.AnchorPoint = Vector2.new(0.5, 0.5)
+AntiH.Text = "Anti Hub"
+AntiH.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+AntiH.TextSize = 14
+AntiH.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+AntiH.TextScaled = true
+AntiH.TextWrapped = true
+AntiH.Parent = Container4
+
+local Games = Instance.new("TextLabel")
+Games.Name = "Games"
+Games.Position = UDim2.new(0.875, 0, 0.05, 0)
+Games.Size = UDim2.new(0.25, 0, 0.1, 0)
+Games.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+Games.BorderSizePixel = 0
+Games.BorderColor3 = Color3.new(0, 0, 0)
+Games.AnchorPoint = Vector2.new(0.5, 0.5)
+Games.Selectable = true
+Games.Active = true
+Games.Text = "Games"
+Games.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+Games.TextSize = 14
+Games.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Games.TextScaled = true
+Games.TextWrapped = true
+Games.Parent = Container4
+
+local Robables = Instance.new("TextButton")
+Robables.Name = "Robables"
+Robables.Position = UDim2.new(0.875, 0, 0.147, 0)
+Robables.Size = UDim2.new(0.25, 0, 0.1, 0)
+Robables.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+Robables.BorderSizePixel = 0
+Robables.BorderColor3 = Color3.new(0, 0, 0)
+Robables.AnchorPoint = Vector2.new(0.5, 0.5)
+Robables.Text = "Robables"
+Robables.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+Robables.TextSize = 14
+Robables.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Robables.TextScaled = true
+Robables.TextWrapped = true
+Robables.Parent = Container4
+
+local Notoriety = Instance.new("TextButton")
+Notoriety.Name = "Notoriety"
+Notoriety.Position = UDim2.new(0.875, 0, 0.244493, 0)
+Notoriety.Size = UDim2.new(0.25, 0, 0.1, 0)
+Notoriety.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+Notoriety.BorderSizePixel = 0
+Notoriety.BorderColor3 = Color3.new(0, 0, 0)
+Notoriety.AnchorPoint = Vector2.new(0.5, 0.5)
+Notoriety.Text = "Notoriety"
+Notoriety.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+Notoriety.TextSize = 14
+Notoriety.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Notoriety.TextScaled = true
+Notoriety.TextWrapped = true
+Notoriety.Parent = Container4
+
+local BABFT = Instance.new("TextButton")
+BABFT.Name = "BABFT"
+BABFT.Position = UDim2.new(0.875, 0, 0.341987, 0)
+BABFT.Size = UDim2.new(0.25, 0, 0.1, 0)
+BABFT.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+BABFT.BorderSizePixel = 0
+BABFT.BorderColor3 = Color3.new(0, 0, 0)
+BABFT.AnchorPoint = Vector2.new(0.5, 0.5)
+BABFT.Text = "BABFT"
+BABFT.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+BABFT.TextSize = 14
+BABFT.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+BABFT.TextScaled = true
+BABFT.TextWrapped = true
+BABFT.Parent = Container4
+
+local CC2 = Instance.new("TextButton")
+CC2.Name = "CC2"
+CC2.Position = UDim2.new(0.875, 0, 0.43948, 0)
+CC2.Size = UDim2.new(0.25, 0, 0.1, 0)
+CC2.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+CC2.BorderSizePixel = 0
+CC2.BorderColor3 = Color3.new(0, 0, 0)
+CC2.AnchorPoint = Vector2.new(0.5, 0.5)
+CC2.Text = "Car Crushers 2"
+CC2.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+CC2.TextSize = 14
+CC2.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+CC2.TextScaled = true
+CC2.TextWrapped = true
+CC2.Parent = Container4
+
+local Title4 = Instance.new("TextLabel")
+Title4.Name = "Title"
+Title4.Position = UDim2.new(0.5, 0, 0.052072, 0)
+Title4.Size = UDim2.new(0.5, 0, 0.104144, 0)
+Title4.BackgroundColor3 = Color3.new(0.0784314, 0.0784314, 0.0784314)
+Title4.BorderSizePixel = 0
+Title4.BorderColor3 = Color3.new(0, 0, 0)
+Title4.AnchorPoint = Vector2.new(0.5, 0.5)
+Title4.Text = "<u>  RealLSE Script Hub  </u>"
+Title4.TextColor3 = Color3.new(1, 1, 1)
+Title4.TextSize = 14
+Title4.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Title4.TextScaled = true
+Title4.TextWrapped = true
+Title4.RichText = true
+Title4.Parent = ScriptHub
+
+pcall(function()
+	RealLSE.Parent = game.CoreGui
+	RealLSE.Parent = gethui()
+end)
 local Toggle = "RightAlt"
 local ChangingKeybind = false
 local Redirecting = false
@@ -403,6 +664,13 @@ local function error(inp)
 		getgenv().RealLSE.Dependancies.Error(inp)
 	else
 		_G.ggv.RealLSE.Dependancies.Error(inp)
+	end
+end
+local function loadstring(inp)
+	if ggve then
+		return getgenv().RealLSE.Dependancies.Loadstring(inp)
+	else
+		return _G.ggv.RealLSE.Dependancies.Loadstring(inp)
 	end
 end
 ]]
@@ -448,6 +716,16 @@ getgenv().RealLSE.Dependancies.Error = function(inp)
 		error(inp)
 	end
 end
+
+getgenv().RealLSE.Dependancies.Loadstring = function(inp)
+	LSS, LSO = pcall(function()
+		loadstring(Dependancies.. ScriptBox.Text)()
+	end)
+	if not LSS then
+		getgenv().RealLSE.Dependancies.Error(LSO)
+	end
+end
+
 ScriptBox:GetPropertyChangedSignal("Text"):Connect(function()
 	ScriptBoxScroll.CanvasSize = UDim2.new(0, 0, 0, ScriptBoxVisual.TextBounds.Y + 10)
 	ScriptBoxScroll.CanvasPosition += Vector2.new(0, 10)
@@ -463,14 +741,10 @@ RealLSE.Enabled = true
 Main.Draggable = true
 SettingsMenu.Draggable = true
 Output.Draggable = true
+ScriptHub.Draggable = true
 
 Execute.Activated:Connect(function()
-	LSS, LSO = pcall(function()
-		loadstring(Dependancies.. ScriptBox.Text)()
-	end)
-	if not LSS then
-		getgenv().RealLSE.Dependancies.Error(LSO)
-	end
+	getgenv().RealLSE.Dependancies.Loadstring(ScriptBox.Text)
 end)
 
 Clear.Activated:Connect(function()
@@ -511,18 +785,54 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 			game:GetService("TweenService"):Create(Main, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 0}):Play()
 			game:GetService("TweenService"):Create(SettingsMenu, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 0}):Play()
 			game:GetService("TweenService"):Create(Output, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 0}):Play()
+			game:GetService("TweenService"):Create(ScriptHub, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 0}):Play()
 			RealLSE.Enabled = true
 		else
 			game:GetService("TweenService"):Create(Overlay, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["BackgroundTransparency"] = 1}):Play()
 			game:GetService("TweenService"):Create(Main, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 1}):Play()
 			game:GetService("TweenService"):Create(SettingsMenu, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 1}):Play()
 			game:GetService("TweenService"):Create(Output, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 1}):Play()
+			game:GetService("TweenService"):Create(ScriptHub, TweenInfo.new(0.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {["GroupTransparency"] = 1}):Play()
 			task.wait(0.25)
 			RealLSE.Enabled = false
 		end
 	end
 end)
 
+InfYield.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()]])
+end)
+DEX.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()]])
+end)
+FChat.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet(("https://raw.githubusercontent.com/LeoVerem14/Chat-haxx/main/Main")))()]])
+end)
+FEYGUITE.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Scripts/main/Yeet-gui-trollface-edition"))()]])
+end)
+SkyH.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/SkyHub.txt"))()]])
+end)
+AntiH.Activated:Connect(function()
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		["Title"] = "RealLSE",
+		["Text"] = "Comming Soon!",
+		["Duration"] = 3
+	})
+end)
+Robables.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/EchoVanta/Scripts/refs/heads/main/Notoriety/Main.luau"))()]])
+end)
+Notoriety.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Scripts/refs/heads/main/NotorietyLoad.lua"))()]])
+end)
+BABFT.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet('https://raw.githubusercontent.com/TheRealAsu/BABFT/refs/heads/main/Jan25_Source.lua'))()]])
+end)
+CC2.Activated:Connect(function()
+	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet('https://whimper.xyz/kitty'))()]])
+end)
 
 local tbtext = ScriptBox
 local tbsyntax = ScriptBoxVisual
