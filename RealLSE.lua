@@ -329,9 +329,8 @@ OutputBox.Selectable = true
 OutputBox.Active = true
 OutputBox.Text = "[RealLSE]: Loaded"
 OutputBox.TextColor3 = Color3.new(1, 1, 1)
-OutputBox.TextSize = 14
+OutputBox.TextSize = 13
 OutputBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-OutputBox.TextWrapped = true
 OutputBox.TextXAlignment = Enum.TextXAlignment.Left
 OutputBox.TextYAlignment = Enum.TextYAlignment.Top
 OutputBox.RichText = true
@@ -348,10 +347,9 @@ OutputLineCount.AnchorPoint = Vector2.new(0.5, 0.5)
 OutputLineCount.Selectable = true
 OutputLineCount.Active = true
 OutputLineCount.Text = "1."
-OutputLineCount.TextColor3 = Color3.new(1, 1, 1)
-OutputLineCount.TextSize = 14
+OutputLineCount.TextColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+OutputLineCount.TextSize = 13
 OutputLineCount.FontFace = Font.new("rbxasset://fonts/families/Sarpanch.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-OutputLineCount.TextWrapped = true
 OutputLineCount.TextXAlignment = Enum.TextXAlignment.Left
 OutputLineCount.TextYAlignment = Enum.TextYAlignment.Top
 OutputLineCount.RichText = true
@@ -422,9 +420,12 @@ end
 getgenv().RealLSE = {}
 getgenv().RealLSE.Dependancies = {}
 
+OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+
 getgenv().RealLSE.Dependancies.Print = function(inp)
 	if Redirecting then
-		OutputBox.Text ..= "\n<font color=\"rgb(178,178,178)\">".. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2).. "</font>".. inp
+		OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+		OutputBox.Text ..= "\n<font color=\"rgb(200,200,200)\">".. inp.. "</font>"
 	else
 		print(inp)
 	end
@@ -432,7 +433,8 @@ end
 
 getgenv().RealLSE.Dependancies.Warn = function(inp)
 	if Redirecting then
-		OutputBox.Text ..= "\n<font color=\"rgb(255,178,0)\">".. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2).. "</font>".. inp
+		OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+		OutputBox.Text ..= "\n<font color=\"rgb(255,178,0)\">".. inp.. "</font>"
 	else
 		warn(inp)
 	end
@@ -440,23 +442,12 @@ end
 
 getgenv().RealLSE.Dependancies.Error = function(inp)
 	if Redirecting then
-		OutputBox.Text ..= "\n<font color=\"rgb(255,50,50)\">".. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2).. "</font>".. inp
+		OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+		OutputBox.Text ..= "\n<font color=\"rgb(255,50,50)\">".. inp.. "</font>"
 	else
 		error(inp)
 	end
 end
-
-OutputBox:GetPropertyChangedSignal("Text"):Connect(function()
-	OutputScroll.CanvasSize = UDim2.new(0, 0, 0, OutputBox.TextBounds.Y + 10)
-	OutputScroll.CanvasPosition += Vector2.new(0, 10)
-	if #OutputBox.Text:split("\n") > OLC then
-		OutputLineCount.Text ..= "\n".. tostring(#OutputBox.Text:split("\n")).. "."
-	elseif #OutputBox.Text:split("\n") < OLC then
-		OutputLineCount.Text = OutputLineCount.Text:sub(string.len(OutputLineCount.Text) - #OutputLineCount.Text:split(".")[#OutputLineCount.Text:split(".")])
-	end
-	OLC = #OutputBox.Text:split("\n")
-end)
-
 ScriptBox:GetPropertyChangedSignal("Text"):Connect(function()
 	ScriptBoxScroll.CanvasSize = UDim2.new(0, 0, 0, ScriptBoxVisual.TextBounds.Y + 10)
 	ScriptBoxScroll.CanvasPosition += Vector2.new(0, 10)
