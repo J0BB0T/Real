@@ -692,7 +692,7 @@ OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMi
 
 getgenv().RealLSE.Dependancies.Print = function(inp)
 	if Redirecting then
-		OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+		OutputLineCount.Text ..= "\n".. os.date("%X").. ".".. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
 		OutputBox.Text ..= "\n<font color=\"rgb(200,200,200)\">".. inp.. "</font>"
 	else
 		print(inp)
@@ -701,7 +701,7 @@ end
 
 getgenv().RealLSE.Dependancies.Warn = function(inp)
 	if Redirecting then
-		OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+		OutputLineCount.Text ..= "\n".. os.date("%X").. ".".. os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
 		OutputBox.Text ..= "\n<font color=\"rgb(255,178,0)\">".. inp.. "</font>"
 	else
 		warn(inp)
@@ -710,7 +710,7 @@ end
 
 getgenv().RealLSE.Dependancies.Error = function(inp)
 	if Redirecting then
-		OutputLineCount.Text ..= os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
+		OutputLineCount.Text ..= "\n".. os.date("%X").. ".".. os.date("%X").. tostring(DateTime.now().UnixTimestampMillis):sub(string.len(tostring( DateTime.now().UnixTimestampMillis)) - 2)
 		OutputBox.Text ..= "\n<font color=\"rgb(255,50,50)\">".. inp.. "</font>"
 	else
 		error(inp)
@@ -719,7 +719,7 @@ end
 
 getgenv().RealLSE.Dependancies.Loadstring = function(inp)
 	LSS, LSO = pcall(function()
-		loadstring(Dependancies.. ScriptBox.Text)()
+		loadstring(Dependancies.. inp)()
 	end)
 	if not LSS then
 		getgenv().RealLSE.Dependancies.Error(LSO)
