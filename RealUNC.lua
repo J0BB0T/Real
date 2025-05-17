@@ -7,9 +7,9 @@ local function PrintResults()
 		return identifyexecutor()
 	end)
 	if suc then
-		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: ".. out.. "\n| Script Version 1.1\n| Roblox Version ".. Version()
+		Output = "\n----- RealUNC Environment Check ----- \n| ✅ - Pass, ⛔ - Fail\n| Executor: ".. out.. "\n| Script Version 1.1\n| Roblox Version ".. Version()
 	else
-		Output = "\n----- RealUNC Environment Check ----- \n|✅ - Pass, ⛔ - Fail\n|Executor: Unknown\n| Script Version 1.1\n| Roblox Version ".. Version()
+		Output = "\n----- RealUNC Environment Check ----- \n| ✅ - Pass, ⛔ - Fail\n| Executor: Unknown\n| Script Version 1.1\n| Roblox Version ".. Version()
 	end
 	for i, v in ipairs(Results) do
 		Output = Output.. "\n".. v
@@ -164,6 +164,10 @@ end))
 -- CONSOLE --
 table.insert(Results, "|\n|-- Console --")
 
+Test("rconsolecreate", pcall(function()
+	rconsolecreate()
+end))
+
 Test("rconsoleclear", pcall(function()
 	rconsoleclear()
 end))
@@ -173,20 +177,21 @@ Test("rconsoleinput", pcall(function()
 end))
 
 Test("rconsoleprint", pcall(function()
-	rconsoleprint()
+	rconsoleprint("Work")
 end))
 
 Test("rconsolesettitle", pcall(function()
-	rconsolesettitle()
+	rconsolesettitle("Work")
 end))
 
 Test("rconsolewarn", pcall(function()
-	rconsolewarn("Success")
+	rconsolewarn("Work")
 end))
 
 Test("rconsoleerr", pcall(function()
-	rconsoleerr("Success")
+	rconsoleerr("Work")
 end))
+
 -- CRYPT --
 table.insert(Results, "|\n|-- Crypt --")
 
@@ -345,80 +350,74 @@ end))
 table.insert(Results, "|\n|-- Filesystem --")
 
 pcall(function()
-	if isfolder and makefolder and delfolder then
-		makefolder(".tests")
-	end
+	makefolder("tests")
 end)
 
 Test("readfile", pcall(function()
-	makefile(".tests/readfile.txt", "true")
-	return readfile(".tests/readfile.txt") == "true"
+	writefile("tests/readfile.txt", "Work")
+	return readfile("tests/readfile.txt") == "Work"
 end))
 
 Test("listfiles", pcall(function()
-	makefolder(".tests/listfiles")
-	makefile(".tests/listfiles/test_1.txt", "success")
-	makefile(".tests/listfiles/test_2.txt", "success")
-	local files = listfiles(".tests/listfiles")
-	return isfile(files[1])
-end))
-
-Test("makefile", pcall(function()
-	makefile(".tests/makefile.txt", "true")
-	return isfile(".tests/makefile.txt")
+	makefolder("tests/listfiles")
+	writefile("tests/listfiles/test_1.txt", "Work")
+	writefile("tests/listfiles/test_2.txt", "Work")
+	local files = listfiles("tests/listfiles")
+	return #files == 2
 end))
 
 Test("writefile", pcall(function()
-	makefile(".tests/writefile.txt", "false")
-	writefile(".tests/writefile.txt", "true")
-	return readfile(".tests/writefile.txt") == "true"
+	writefile("tests/writefile.txt", "Work")
+	return readfile("tests/writefile.txt") == "Work"
 end))
 
 Test("makefolder", pcall(function()
-	makefolder(".tests/makefolder")
-	return isfolder(".tests/makefolder")
+	return isfolder("tests")
 end))
 
 Test("appendfile", pcall(function()
-	makefile(".tests/appendfile.txt", "false")
-	appendfile(".tests/appendfile.txt", "true")
-	return readfile(".tests/appendfile.txt") == "true"
+	writefile("tests/appendfile.txt", "Wo")
+	appendfile("tests/appendfile.txt", "rk")
+	return readfile("tests/appendfile.txt") == "Work"
 end))
 
 Test("isfile", pcall(function()
-	makefile(".tests/isfile.txt", "true")
-	return (isfile(".tests/isfile.txt") and not isfile(".tests"))
+	writefile("tests/isfile.txt", "Work")
+	return isfile("tests/isfile.txt") and not isfile("tests")
 end))
 
 Test("isfolder", pcall(function()
-	makefile(".tests/isfolder.txt", "true")
-	return (isfile(".tests") and not isfolder(".tests/isfolder.txt"))
+	return (isfile("tests") and not isfolder("tests/isfile.txt"))
 end))
 
 Test("delfile", pcall(function()
-	makefile(".tests/delfile.txt", "true")
-	delfile(".tests/delfile.txt")
-	return not isfile(".tests/delfile.txt")
+	writefile("tests/delfile.txt", "true")
+	delfile("tests/delfile.txt")
+	return not isfile("tests/delfile.txt")
 end))
 
 Test("loadfile", pcall(function()
-	makefile(".tests/loadfile.txt", "return ... + 1")
-	makefile(".tests/loadfile.txt", "f")
-	local callback, err = loadfile(".tests/loadfile.txt")
+	writefile("tests/loadfile.txt", "return ... + 1")
+	writefile("tests/loadfile.txt", "f")
+	local callback, err = loadfile("tests/loadfile.txt")
 	return (err and not callback)
 end))
 
 Test("dofile", pcall(function()
-	makefile(".tests/dofile.lua", "_G.dofiletest = true")
-	dofile(".tests/dofile.lua")
-	return _G.dofiletest
+	writefile("tests/dofile.lua", "writefile('tests/dofile.txt', 'Work')")
+	dofile("tests/dofile.lua")()
+	return readfile("tests/dofile.txt") == "Work"
 end))
 
 Test("delfolder", pcall(function()
-	makefolder(".tests/delfolder")
-	delfolder(".tests/delfolder")
-	return true
+	makefolder("tests/delfolder")
+	delfolder("tests/delfolder")
+	return not isfolder("tests/delfolder")
 end))
+
+pcall(function()
+	delfolder("tests")
+end)
 
 -- INPUT --
 table.insert(Results, "|\n|-- Input --")
@@ -538,7 +537,7 @@ Test("mousescroll", pcall(function()
 	Scroll.CanvasPosition = Vector2.new(0, 0)
 	Scroll.Parent = ScreenGui
 	mousescroll(100)
-	return Scroll.CanvasPosition > Vector2.new(0, 0)
+	return Scroll.CanvasPosition.X > 0 or Scroll.CanvasPosition.Y > 0
 end))
 
 -- INSTANCES --
@@ -579,8 +578,8 @@ Test("getconnections", pcall(function()
 end))
 
 Test("getcustomasset", pcall(function()
-	writefile(".tests/getcustomasset.txt", "success")
-	local contentId = getcustomasset(".tests/getcustomasset.txt")
+	writefile("tests/getcustomasset.txt", "success")
+	local contentId = getcustomasset("tests/getcustomasset.txt")
 	return string.match(contentId, "rbxasset://") == "rbxasset://"
 end))
 
@@ -617,11 +616,6 @@ Test("setscriptable", pcall(function()
 	local wasScriptable = setscriptable(fire, "size_xml", true)
 	fire = Instance.new("Fire")
 	return not isscriptable(fire, "size_xml")
-end))
-
-Test("setrbxclipboard", pcall(function()
-	setrbxclipboard()
-	return true
 end))
 
 -- METATABLE --
@@ -713,7 +707,7 @@ Test("request", pcall(function()
 end))
 
 Test("setclipboard", pcall(function()
-	setclipboard()
+	setclipboard("Work")
 	return true
 end))
 
@@ -803,13 +797,12 @@ end))
 table.insert(Results, "|\n|-- Uncategorised --")
 
 Test("httpget", pcall(function()
-	return game:HttpGet("https://google.com") ~= nil
+	return game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/GetTest.txt") == "Get Work"
 end))
 
 Test("saveinstance", pcall(function()
 	local instance = Instance.new("Part", nil)
-	saveinstance(instance, ".tests/instance.rbxm")
-	delfile(".tests/instance.rbxm")
+	saveinstance(instance)
 	return true
 end))
 
