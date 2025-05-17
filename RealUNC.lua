@@ -707,7 +707,7 @@ Test("request", pcall(function()
 end))
 
 Test("setclipboard", pcall(function()
-	setclipboard("Work")
+	setclipboard("RealUNC setclipboard Works")
 	return true
 end))
 
