@@ -36,6 +36,7 @@ local function AddAC(plr:Player)
 	--<[Speed]>--
 	task.spawn(function()
 		while task.wait() do
+			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
 			if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 10, 20, math.huge) then
 				if (Char:GetPivot().Position - CPos).Magnitude <= math.clamp(Ping / 10, 100, math.huge) then
 					ACTrigger(plr, "Speed", Respawn)
@@ -51,6 +52,7 @@ local function AddAC(plr:Player)
 	task.spawn(function()
 		FlyTime = os.time()
 		while task.wait() do
+			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
 			if Char:WaitForChild("Humanoid").FloorMaterial == Enum.Material.Air then
 				repeat task.wait() until Char.Humanoid.FloorMaterial ~= Enum.Material.Air
 			else
@@ -60,7 +62,8 @@ local function AddAC(plr:Player)
 	end)
 
 	task.spawn(function()
-		while task.wait() do
+		while task.wait(1) do
+			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
 			-- and Char:GetPivot().UpVector:Dot(Vector3.new(0, 1, 0)) <= 0.975 
 			if os.time() - FlyTime > 5 then
 				ACTrigger(plr, "Flight", Respawn)
@@ -75,7 +78,6 @@ local function AddAC(plr:Player)
 		end
 		TeamTime = os.time()
 	end)
-
 end
 
 task.spawn(function()
