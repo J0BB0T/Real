@@ -39,7 +39,6 @@ end
 local function AddAC(plr:Player)
 	if table.find(ACList, plr) then return end
 	table.insert(ACList, plr)
-	print("added ".. plr.Name)
 	local Char = plr.Character or plr.CharacterAdded:Wait()
 	local Team = plr.Team
 	local TeamTime = os.time()
@@ -89,7 +88,6 @@ local function AddAC(plr:Player)
 		local Jumped = false
 		repeat
 			if Char ~= nil then
-				print(Char:WaitForChild("Humanoid").Jump)
 				Jumped = Char:WaitForChild("Humanoid").Jump
 			end
 			task.wait()
