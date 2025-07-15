@@ -1,4 +1,4 @@
-local Continue = false
+	local Continue = false
 
 if not pcall(function() getgenv().Testing = true end) then
 	Continue = _G.RAC
