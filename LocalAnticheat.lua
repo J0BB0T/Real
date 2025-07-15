@@ -1,4 +1,4 @@
-	local Continue = false
+local Continue = false
 
 if not pcall(function() getgenv().Testing = true end) then
 	Continue = _G.RAC
@@ -136,9 +136,15 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 		print("Users Under Anticheat (\n> ".. table.concat(ACList, ", ").. "\n)")
 	end
 end)
-
-game:GetService("StarterGui"):SetCore("SendNotificaiton", {["Title"] = "Anticheat", ["Text"] = "Real Anticheat Loaded.", ["Duration"] = 5})
 print("Real Anticheat Loaded.")
+
+local suc = false
+repeat
+	suc = pcall(function()
+		game:GetService("StarterGui"):SetCore("SendNotificaiton", {["Title"] = "Anticheat", ["Text"] = "Real Anticheat Loaded.", ["Duration"] = 5})
+	end)
+	task.wait()
+until suc
 
 while task.wait() do
 	Ping = LocalPlayer:GetNetworkPing() * 2000
