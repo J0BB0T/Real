@@ -37,7 +37,7 @@ local function AddAC(plr:Player)
 	task.spawn(function()
 		while task.wait() do
 			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
-			if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 10, 20, math.huge) then
+			if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 100, 10, math.huge) then
 				if (Char:GetPivot().Position - CPos).Magnitude <= math.clamp(Ping / 10, 100, math.huge) then
 					ACTrigger(plr, "Speed", Respawn)
 				else
