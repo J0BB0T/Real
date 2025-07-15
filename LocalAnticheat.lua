@@ -54,6 +54,7 @@ local function AddAC(plr:Player)
 		
 		repeat
 			if Char ~= nil then
+				print(Char:WaitForChild("Humanoid").Jump)
 				Jumped = Char:WaitForChild("Humanoid").Jump
 			end
 			task.wait()
