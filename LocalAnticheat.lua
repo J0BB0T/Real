@@ -99,6 +99,7 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 
+game:GetService("StarterGui"):SetCore("SendNotification", {["Title"] = "Real Anti Cheat" ["Text"] = "AC Loaded", ["Duration"] = 2})
 
 while task.wait() do
 	Ping = LocalPlayer:GetNetworkPing() * 2000
