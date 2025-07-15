@@ -8,8 +8,14 @@ else
 	getgenv().RAC = true
 end
 
-if not Continue then 
-	game:GetService("StarterGui"):SetCore("SendNotificaiton", {["Title"] = "AC - Error", ["Text"] = "Already Loaded.", ["Duration"] = 5})
+if not Continue then
+	local suc = false
+	repeat
+		suc = pcall(function()
+			game:GetService("StarterGui"):SetCore("SendNotificaiton", {["Title"] = "AC - Error", ["Text"] = "Already Loaded.", ["Duration"] = 5})
+		end)
+		task.wait()
+	until suc
 	return
 end
 
