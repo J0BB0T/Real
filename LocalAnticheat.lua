@@ -50,6 +50,14 @@ local function AddAC(plr:Player)
 
 	--<[Flight]>--
 	task.spawn(function()
+		local Jumped = false
+		
+		repeat
+			if Char ~= nil then
+				Jumped = Char:WaitForChild("Humanoid").Jump
+			end
+			task.wait()
+		until Jumped
 		FlyTime = os.time()
 		while task.wait() do
 			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
@@ -99,7 +107,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 
-game:GetService("StarterGui"):SetCore("SendNotification", {["Title"] = "Real Anti Cheat" ["Text"] = "AC Loaded", ["Duration"] = 2})
 
 while task.wait() do
 	Ping = LocalPlayer:GetNetworkPing() * 2000
