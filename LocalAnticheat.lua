@@ -1,8 +1,24 @@
+local Continue = false
+
+if not pcall(function() getgenv().Testing = true end) then
+	Continue = _G.RAC
+	_G.RAC = true
+else
+	Continue = getgenv().RAC
+	getgenv().RAC = true
+end
+
+if not Continue then 
+	game:GetService("StarterGui"):SetCore("SendNotificaiton", {["Title"] = "AC - Error", ["Text"] = "Already Loaded.", ["Duration"] = 5})
+	return
+end
+
 local LocalPlayer = game:GetService("Players").LocalPlayer::Player
 local ACList = {}
 local Messages = {}
 local CanSend = {}
 local Ping = 0
+local FPS = 0
 
 local function ACTrigger(plr, Reason, Respawn)
 	if Respawn then return end
@@ -37,11 +53,13 @@ local function AddAC(plr:Player)
 	task.spawn(function()
 		while task.wait() do
 			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
-			if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 100, 10, math.huge) then
-				if (Char:GetPivot().Position - CPos).Magnitude <= math.clamp(Ping / 10, 100, math.huge) then
-					ACTrigger(plr, "Speed", Respawn)
-				else
-					ACTrigger(plr, "Teleport", Respawn)
+			if FPS >= 20 then
+				if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 100, 10, math.huge) then
+					if (Char:GetPivot().Position - CPos).Magnitude <= math.clamp(Ping / 10, 100, math.huge) then
+						ACTrigger(plr, "Speed", Respawn)
+					else
+						ACTrigger(plr, "Teleport", Respawn)
+					end
 				end
 			end
 			CPos = Char:GetPivot().Position
@@ -102,6 +120,10 @@ task.spawn(function()
 	end)
 end)
 
+game:GetService("RunService").RenderStepped:Connect(function(DT)
+	FPS = 1 / DT
+end)
+
 game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	if proc then return end
 	if inp.KeyCode == Enum.KeyCode.L then
@@ -109,6 +131,7 @@ game:GetService("UserInputService").InputBegan:Connect(function(inp, proc)
 	end
 end)
 
+game:GetService("StarterGui"):SetCore("SendNotificaiton", {["Title"] = "Anticheat", ["Text"] = "RealAnticheat Loaded.", ["Duration"] = 5})
 
 while task.wait() do
 	Ping = LocalPlayer:GetNetworkPing() * 2000
