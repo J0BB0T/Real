@@ -23,12 +23,16 @@ local LocalPlayer = game:GetService("Players").LocalPlayer::Player
 local ACList = {}
 local Messages = {}
 local CanSend = {}
+local Whitelist = {}
 local Ping = 0
 local FPS = 0
 
 local function ACTrigger(plr, Reason, Respawn)
+	if table.find(Whitelist, plr.UserId) then return end
 	if Respawn then return end
 	if plr.Team == game.Teams.Neutral then return end
+	if plr.Character == nil then return end
+	if plr.Character:WaitForChild("Humanoid").Sit then return end
 	if table.find(CanSend, plr.Name.. " ".. Reason) then return end
 	print("Player \"".. plr.Name.. "\" Has Triggered AC.\nReason: ".. Reason)
 	game:GetService("StarterGui"):SetCore("SendNotification", {["Title"] = "AC - ".. plr.Name, ["Text"] = "Detected ".. Reason, ["Duration"] = 2})
@@ -59,7 +63,7 @@ local function AddAC(plr:Player)
 		while task.wait() do
 			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
 			if FPS >= 20 then
-				if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 100, 10, math.huge) then
+				if (Char:GetPivot().Position - CPos).Magnitude >= math.clamp(Ping / 100, 14, math.huge) then
 					if (Char:GetPivot().Position - CPos).Magnitude <= math.clamp(Ping / 10, 100, math.huge) then
 						ACTrigger(plr, "Speed", Respawn)
 					else
@@ -95,7 +99,7 @@ local function AddAC(plr:Player)
 		while task.wait(1) do
 			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
 			-- and Char:GetPivot().UpVector:Dot(Vector3.new(0, 1, 0)) <= 0.975 
-			if os.time() - FlyTime > 5 then
+			if os.time() - FlyTime > 8 then
 				if Char:WaitForChild("Humanoid").FloorMaterial == Enum.Material.Air then
 					ACTrigger(plr, "Flight", Respawn)
 				end
