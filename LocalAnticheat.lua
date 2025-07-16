@@ -51,7 +51,13 @@ local function AddAC(plr:Player)
 	local FloorMaterial = Enum.Material.SmoothPlastic
 	local CPos = Char:GetPivot().Position
 	local Respawn = false
+	local Jumped = false
 	plr.CharacterAdded:Connect(function(mod)
+		Jumped = false
+		repeat
+			Jumped = Char:WaitForChild("Humanoid").Jump
+			task.wait()
+		until Jumped
 		Respawn = true
 		Char = mod
 		task.wait(0.5)
@@ -89,18 +95,11 @@ local function AddAC(plr:Player)
 	end)
 
 	task.spawn(function()
-		local Jumped = false
-		repeat
-			if Char ~= nil then
-				Jumped = Char:WaitForChild("Humanoid").Jump
-			end
-			task.wait()
-		until Jumped
 		while task.wait(1) do
 			if not table.find(game:GetService("Players"):GetPlayers(), plr) then return end
 			-- and Char:GetPivot().UpVector:Dot(Vector3.new(0, 1, 0)) <= 0.975 
 			if os.time() - FlyTime > 8 then
-				if Char:WaitForChild("Humanoid").FloorMaterial == Enum.Material.Air then
+				if Char:WaitForChild("Humanoid").FloorMaterial == Enum.Material.Air and Jumped then
 					ACTrigger(plr, "Flight", Respawn)
 				end
 			end
