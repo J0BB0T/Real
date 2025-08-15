@@ -815,11 +815,7 @@ SkyH.Activated:Connect(function()
 	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub/main/SkyHub.txt"))()]])
 end)
 AntiH.Activated:Connect(function()
-	game:GetService("StarterGui"):SetCore("SendNotification", {
-		["Title"] = "RealLSE",
-		["Text"] = "Comming Soon!",
-		["Duration"] = 3
-	})
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/TNE/refs/heads/main/AntiHub.lua"))()
 end)
 Robables.Activated:Connect(function()
 	getgenv().RealLSE.Dependancies.Loadstring([[loadstring(game:HttpGet("https://raw.githubusercontent.com/EchoVanta/Scripts/refs/heads/main/Notoriety/Main.luau"))()]])
