@@ -287,8 +287,6 @@ local TargetPlayer = nil
 local OldCFrame = CFrame.new()
 local PrefixChar = "?"
 local Flying = false
-local Rotation = CFrame.new(0, 0, 0) * CFrame.Angles(0, math.rad(-90), 0)
-Rotation = Vector3.new(Rotation.X, Rotation.Y, Rotation.Z)
 local CustomOffset = 0
 local TrueOffset = 0
 local COffsetEnabled = false
@@ -421,7 +419,7 @@ game:GetService("RunService").Heartbeat:Connect(function()
 			CustomOffset = TrueOffset
 		end
 		LocalCharacter:FindFirstChildWhichIsA("Humanoid").PlatformStand = true
-		LocalCharacter:PivotTo(CFrame.new(Vector3.new(TargetPlayer.Character:GetPivot().Position.X, TargetPlayer.Character:GetPivot().Position.Y - CustomOffset, TargetPlayer.Character:GetPivot().Position.Z), Rotation))
+		LocalCharacter:PivotTo(CFrame.new(Vector3.new(TargetPlayer.Character:GetPivot().Position.X, TargetPlayer.Character:GetPivot().Position.Y - CustomOffset, TargetPlayer.Character:GetPivot().Position.Z), TargetPlayer.Character:GetPivot().Position - Vector3.new(0, CustomOffet + 10, 0))
 	end
 end)
 
