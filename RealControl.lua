@@ -165,11 +165,6 @@ local TargetCharacter = nil
 local NewCharcater = nil
 local OldCharacter = LocalCharacter
 local GSPlayers = game:GetService("Players")
-local Washiez = GSPlayers:GetPlayers()[1]:FindFirstChild("GroupInfo") ~= nil
-local TC = false
-if Washiez then
-	TC = GSPlayers:GetPlayers()[1].leaderstats:FindFirstChild("Rank")
-end
 local Invis = Instance.new("Animation", Container)
 Invis.Name = "InvisAnim"
 Invis.AnimationId = "rbxassetid://110362083969529"
@@ -179,10 +174,6 @@ InvisAnim.Looped = true
 
 local Target = LocalPlayer
 local Tools = LocalPlayer.Backpack:GetChildren()
-if Washiez then
-	local Rank = LocalPlayer.GroupInfo.Rank.Value
-	local Role = LocalPlayer.GroupInfo.Role.Value
-end
 local PlayerName = LocalPlayer.Name
 local Controling = false
 
@@ -241,9 +232,6 @@ local function Uncontrol()
 		Target.Character.Parent = OldCharacter.Parent
 	end)
 	OldCharacter:PivotTo(NewCharcater:GetPivot())
-	pcall(function()
-		workspace.Nametags[Target.Name].Adornee = Target.Character.Head
-	end)
 	workspace.CurrentCamera.CameraSubject = OldCharacter:WaitForChild("Humanoid")
 	NewCharcater:Destroy()
 	LocalPlayer.Character = OldCharacter
@@ -251,13 +239,6 @@ local function Uncontrol()
 	LocalPlayer.Backpack:ClearAllChildren()
 	for i, v in Tools do
 		v.Parent = LocalPlayer.Backpack
-	end
-	if Washiez then
-		LocalPlayer.GroupInfo.Rank.Value = Rank
-		LocalPlayer.GroupInfo.Role.Value = Role
-	end
-	if TC then
-		LocalPlayer.leaderstats.Rank.Value = Rank
 	end
 	NewCharcater:Destroy()
 	Container.Current.Text = "Yourself"
@@ -282,26 +263,14 @@ Container.Control.Activated:Connect(function()
 	end
 	TargetCharacter = Target.Character
 	Tools = LocalPlayer.Backpack:GetChildren()
-	if Washiez then
-		Rank = LocalPlayer.GroupInfo.Rank.Value
-		Role = LocalPlayer.GroupInfo.Role.Value
-	end
 	InvisAnim:Play()
 	LocalPlayer.Backpack:ClearAllChildren()
-	if Washiez then
-		LocalPlayer.GroupInfo.Rank.Value = Target.GroupInfo.Rank.Value
-		LocalPlayer.GroupInfo.Role.Value = Target.GroupInfo.Role.Value
-	end
-	if TC then
-		LocalPlayer.leaderstats.Rank.Value = Target.leaderstats.Rank.Value
-	end
 	TargetCharacter.Archivable = true
 	NewCharcater = TargetCharacter:Clone()
 	task.wait(0.1)
 	NewCharcater:PivotTo(TargetCharacter:GetPivot())
 	NewCharcater.Parent = TargetCharacter.Parent
 	TargetCharacter.Parent = nil
-	workspace.Nametags[Target.Name].Adornee = NewCharcater.Head
 	workspace.CurrentCamera.CameraSubject = NewCharcater:WaitForChild("Humanoid")
 	LocalPlayer.Character = NewCharcater
 	for i, v in Target.Backpack:GetChildren() do
