@@ -13,6 +13,9 @@ Scripts:
 RealFlight (Let Others Fly): <br />
 loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealFlight.lua"))()
 
+RealControl: <br />
+loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealControl.lua"))()
+
 RealUNC Test: <br />
 loadstring(game:HttpGet("https://raw.githubusercontent.com/J0BB0T/Real/refs/heads/main/RealUNC.lua"))()
 
