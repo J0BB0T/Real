@@ -87,7 +87,7 @@ function Lib.Restart(Force:boolean)
 end
 
 function Lib.Interact(Prompt:ProximityPrompt)
-	if Prompt.HoldDuration <= 0.05 then
+	if Prompt.HoldDuration <= 0.1 then
 		repeat
 			fireproximityprompt(Prompt)
 			task.wait()
@@ -111,5 +111,7 @@ end
 GSRun.Heartbeat:Connect(function()
 	Lib.Spawned = #LocalPlayer.Backpack:GetChildren() >= 2
 end)
+
+print("NEW LIB")
 
 return Lib
