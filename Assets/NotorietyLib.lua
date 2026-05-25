@@ -7,6 +7,7 @@ local Lib = {}
 local VIM = game:GetService("VirtualInputManager")
 local GSTween = game:GetService("TweenService")
 local GSRS = game:GetService("ReplicatedStorage")
+local GSPP = game:GetService("ProximityPromptService")
 local GSRun = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local LocalCharacter = LocalPlayer.Character or LocalPlayer.Character:Wait()
@@ -25,6 +26,18 @@ end)
 
 local Looking = false
 local LookAt = false
+local HoldingPrompt = false
+local Moving = false
+
+GSPP.PromptButtonHoldBegan:Connect(function()
+	HoldingPrompt = true
+end)
+GSPP.PromptButtonHoldEnded:Connect(function()
+	HoldingPrompt = false
+end)
+GSPP.PromptTriggered:Connect(function()
+	HoldingPrompt = false
+end)
 
 GSRun.PreRender:Connect(function()
 	if Looking then
@@ -32,20 +45,36 @@ GSRun.PreRender:Connect(function()
 			LocalPlayer:SetAttribute("Freecam", true)
 		end
 		workspace.CurrentCamera:PivotTo(CFrame.lookAt(LocalCharacter.Head.Position, LookAt))
+	else
+		LocalPlayer:SetAttribute("Freecam", nil)
+	end
+	if Moving then
+		LocalCharacter.PrimaryPart.AssemblyLinearVelocity = Vector3.zero
 	end
 end)
 
 function Lib.Move(Position:Vector3)
 	local Tween = GSTween:Create(LocalCharacter.HumanoidRootPart, TweenInfo.new((LocalCharacter:GetPivot().Position - Position).Magnitude / Lib.TweenSpeed, Enum.EasingStyle.Linear), {["CFrame"] = CFrame.new(Position)})
 	Tween:Play()
+	task.wait()
+	Moving = true
 	Tween.Completed:Wait()
+	Moving = false
 end
 
 function Lib.LookTowards(Position:Vector3, Time:number)
+	if Time == true then
+		Looking = true
+		LookAt = Position
+	elseif Time == false then
+		Looking = false
+		LocalPlayer:SetAttribute("Freecam", nil)
+	end
 	task.spawn(function()
 		Looking = true
 		LookAt = Position
 		task.wait(Time or 1)
+		Looking = false
 		LocalPlayer:SetAttribute("Freecam", nil)
 	end)
 end
@@ -98,16 +127,22 @@ function Lib.Interact(Prompt:ProximityPrompt)
 			task.wait()
 		until Prompt == nil or Prompt.Parent == nil
 	else
-		Lib.LookTowards(Prompt.Parent.Position, Prompt.HoldDuration + 0.1)
+		Lib.LookTowards(Prompt.Parent.Position, true)
 		local HB = GSRun.Heartbeat:Connect(function()
 			Prompt.RequiresLineOfSight = false
 			Prompt.Enabled = true
 		end)
 		repeat
-			task.wait(0.05)
-			VIM:SendKeyEvent(true, Prompt.KeyboardKeyCode, false, game)
-			task.wait(0.05)
-			VIM:SendKeyEvent(false, Prompt.KeyboardKeyCode, false, game)
+			pcall(function()
+				if not HoldingPrompt then
+					VIM:SendKeyEvent(false, Prompt.KeyboardKeyCode, false, game)
+				end
+				repeat
+					task.wait(0.05)
+					VIM:SendKeyEvent(true, Prompt.KeyboardKeyCode, false, game)
+				until HoldingPrompt or Prompt == nil or Prompt.Parent == nil
+			end)
+			task.wait()
 		until Prompt == nil or Prompt.Parent == nil
 		HB:Disconnect()
 	end
@@ -168,8 +203,8 @@ function Lib.HitEvent(Item)
 	GSRS:WaitForChild("RS_Package").Assets.Remotes.HitObject:FireServer(LocalCharacter:FindFirstChildWhichIsA("Tool"), Item, false, nil, nil, vector.create(0, 0, 0), 100, nil, vector.create(0, 0, 0))
 end
 
-function Lib.ThrowBag(Position:Vector3)
-	GSRS.RS_Package.Remotes.ThrowBag:FireServer(Position or Vector3.new(0, 0, 0))
+function Lib.ThrowBag()
+	GSRS.RS_Package.Remotes.ThrowBag:FireServer(Vector3.new(0, 0, 0))
 end
 
 Lib.FloorPart = workspace.BagSecuredArea.FloorPart
@@ -178,5 +213,7 @@ GSRun.Heartbeat:Connect(function()
 	Lib.Spawned = #LocalPlayer.Backpack:GetChildren() >= 2
 	Lib.Yell(TempYell)
 end)
+
+getgenv().NotoLib = Lib
 
 return Lib
