@@ -1,3 +1,7 @@
+if getgenv().NotoLib then
+	return getgenv().NotoLib
+end
+
 local Lib = {}
 
 local VIM = game:GetService("VirtualInputManager")
@@ -6,6 +10,7 @@ local GSRS = game:GetService("ReplicatedStorage")
 local GSRun = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local LocalCharacter = LocalPlayer.Character or LocalPlayer.Character:Wait()
+local TempYell = {}
 Lib.TweenSpeed = 75
 
 local PlayerData = nil
@@ -74,7 +79,7 @@ function Lib.MaskUp(Item:string)
 	GSRS:WaitForChild("RS_Package"):WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("MaskOn"):FireServer()
 end
 
-function Lib.Yell(YellAt)
+function Lib.Yell(YellAt:any)
 	GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("PlayerYell"):FireServer(YellAt)
 end
 
@@ -108,10 +113,70 @@ function Lib.Interact(Prompt:ProximityPrompt)
 	end
 end
 
+function Lib.GotoAndGrab(Prompt:ProximityPrompt)
+	Lib.Move(Prompt.Parent)
+	task.wait(0.05)
+	Lib.Interact(Prompt)
+end
+
+function Lib.Customise(Loadout:number, Type:string, Item:string, Args:any)
+	GSRS:WaitForChild("CustomizeCharacter"):FireServer(Loadout or 1, Type, Item, Args or {})
+end
+
+function Lib.HasOwnership(Part:BasePart)
+	if Part == nil or Part.Parent == nil then return end
+	if isnetworkowner then
+		return isnetworkowner(Part)
+	end
+	return true
+end
+
+function Lib.FlingCharacter(Character:Model)
+	task.spawn(function()
+		table.insert(TempYell, Character)
+		repeat task.wait() until Lib.HasOwnership(Character.PrimaryPart)
+		repeat
+			pcall(function()
+				for i, v in Character:GetDescendants() do
+					if v:IsA("BasePart") then
+						v.CanCollide = false
+					end
+				end
+				Character.PrimaryPart.AssemblyLinearVelocity = Vector3.new(0, -10000, 0)
+			end)
+			task.wait()
+		until Character == nil or Character.Parent == nil or Character:GetPivot().Position.Y <= -10000
+		table.remove(TempYell, table.find(TempYell, Character))
+	end)
+end
+
+function Lib.MoveBag(Bag:Model, Position:Vector3, WaitForParent:boolean)
+	if Bag:HasTag("NL_Moving") then return end
+	Bag:AddTag("NL_Moving")
+	local Parent = Bag.Parent
+	task.spawn(function()
+		repeat
+			repeat task.wait() until Lib.HasOwnership(Bag.PrimaryPart)
+			Bag.PrimaryPart.Position = Position + Vector3.new(0, math.random(0, 5), 0)
+			task.wait()
+		until Bag.Parent ~= Parent or not WaitForParent
+		Bag:RemoveTag("NL_Moving")
+	end)
+end
+
+function Lib.HitEvent(Item)
+	GSRS:WaitForChild("RS_Package").Assets.Remotes.HitObject:FireServer(LocalCharacter:FindFirstChildWhichIsA("Tool"), Item, false, nil, nil, vector.create(0, 0, 0), 100, nil, vector.create(0, 0, 0))
+end
+
+function Lib.ThrowBag(Position:Vector3)
+	GSRS.RS_Package.Remotes.ThrowBag:FireServer(Position or Vector3.new(0, 0, 0))
+end
+
+Lib.FloorPart = workspace.BagSecuredArea.FloorPart
+
 GSRun.Heartbeat:Connect(function()
 	Lib.Spawned = #LocalPlayer.Backpack:GetChildren() >= 2
+	Lib.Yell(TempYell)
 end)
-
-print("NEW LIB")
 
 return Lib
