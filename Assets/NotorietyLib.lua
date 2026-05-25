@@ -114,7 +114,7 @@ function Lib.Interact(Prompt:ProximityPrompt)
 end
 
 function Lib.GotoAndGrab(Prompt:ProximityPrompt)
-	Lib.Move(Prompt.Parent)
+	Lib.Move(Prompt.Parent.Position)
 	task.wait(0.05)
 	Lib.Interact(Prompt)
 end
