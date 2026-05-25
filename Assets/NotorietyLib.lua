@@ -1,7 +1,3 @@
-task.wait(1.75)
-
-repeat task.wait() until game:IsLoaded()
-
 local Lib = {}
 
 local VIM = game:GetService("VirtualInputManager")
