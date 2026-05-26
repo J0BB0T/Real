@@ -13,6 +13,8 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local LocalCharacter = LocalPlayer.Character or LocalPlayer.Character:Wait()
 local TempYell = {}
 Lib.TweenSpeed = 75
+Lib.UseOldInteract = false
+Lib.InstantLegit = false
 
 local PlayerData = nil
 task.spawn(function()
@@ -27,6 +29,7 @@ end)
 local Looking = false
 local LookAt = false
 local HoldingPrompt = false
+local PromptTriggered = nil
 local Moving = false
 
 GSPP.PromptButtonHoldBegan:Connect(function()
@@ -35,8 +38,9 @@ end)
 GSPP.PromptButtonHoldEnded:Connect(function()
 	HoldingPrompt = false
 end)
-GSPP.PromptTriggered:Connect(function()
+GSPP.PromptTriggered:Connect(function(Prompt)
 	HoldingPrompt = false
+	PromptTriggered = Prompt
 end)
 
 GSRun.PreRender:Connect(function()
@@ -44,7 +48,7 @@ GSRun.PreRender:Connect(function()
 		if LocalPlayer:GetAttribute("Freecam") == nil then
 			LocalPlayer:SetAttribute("Freecam", true)
 		end
-		workspace.CurrentCamera:PivotTo(CFrame.lookAt(LocalCharacter.Head.Position, LookAt))
+		workspace.CurrentCamera:PivotTo(CFrame.lookAt(LocalCharacter.Head.Position, LookAt or Vector3.zero))
 	else
 		LocalPlayer:SetAttribute("Freecam", nil)
 	end
@@ -53,12 +57,50 @@ GSRun.PreRender:Connect(function()
 	end
 end)
 
-function Lib.Move(Position:Vector3)
+function Lib.OldInteract(Prompt:ProximityPrompt)
+	Lib.LookTowards(Prompt.Parent.Position, true)
+	local HB = GSRun.Heartbeat:Connect(function()
+		Prompt.RequiresLineOfSight = false
+		Prompt.Enabled = true
+	end)
+	--VIM:SendKeyEvent(true, Prompt.KeyboardKeyCode, false, game)
+	repeat
+		--[[]]
+		pcall(function()
+			if not HoldingPrompt then
+				VIM:SendKeyEvent(false, Prompt.KeyboardKeyCode, false, game)
+			end
+			repeat
+				task.wait(0.05)
+				VIM:SendKeyEvent(true, Prompt.KeyboardKeyCode, false, game)
+				if Prompt and Prompt.Parent and (Prompt.Parent.Position - LocalCharacter:GetPivot().Position).Magnitude >= 15 then
+					LocalCharacter:MoveTo(Prompt.Parent.Position)
+				end
+			until HoldingPrompt or Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt
+		end)
+		--]]
+		task.wait()
+	until Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt
+	VIM:SendKeyEvent(false, Prompt.KeyboardKeyCode, false, game)
+	Lib.LookTowards(nil, false)
+	HB:Disconnect()
+end
+
+function Lib.Move(Position:Vector3, Hide:boolean)
+	if Hide then
+		Position -= Vector3.new(0, 15, 0)
+	end
+	LocalCharacter:MoveTo(LocalCharacter:GetPivot().Position - Vector3.new(0, 15, 0))
 	local Tween = GSTween:Create(LocalCharacter.HumanoidRootPart, TweenInfo.new((LocalCharacter:GetPivot().Position - Position).Magnitude / Lib.TweenSpeed, Enum.EasingStyle.Linear), {["CFrame"] = CFrame.new(Position)})
 	Tween:Play()
 	task.wait()
 	Moving = true
 	Tween.Completed:Wait()
+	if Hide then
+		task.wait()
+		LocalCharacter:MoveTo(Position + Vector3.new(0, 15, 0))
+		task.wait()
+	end
 	Moving = false
 end
 
@@ -66,9 +108,11 @@ function Lib.LookTowards(Position:Vector3, Time:number)
 	if Time == true then
 		Looking = true
 		LookAt = Position
+		return
 	elseif Time == false then
 		Looking = false
 		LocalPlayer:SetAttribute("Freecam", nil)
+		return
 	end
 	task.spawn(function()
 		Looking = true
@@ -109,47 +153,73 @@ function Lib.MaskUp(Item:string)
 end
 
 function Lib.Yell(YellAt:any)
+	if type(YellAt) ~= "table" then
+		YellAt = {YellAt}
+	end
 	GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("PlayerYell"):FireServer(YellAt)
 end
 
 function Lib.Restart(Force:boolean)
 	if Force then
-		GSRS:WaitForChild("RS_Package").Remotes.ForceReset:FireServer()
+	--	GSRS:WaitForChild("RS_Package").Remotes.ForceReset:FireServer()
 	else
-		GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
+	--	GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
 	end
 end
 
 function Lib.Interact(Prompt:ProximityPrompt)
+	repeat Prompt.HoldDuration = 0.01 task.wait() until Prompt.HoldDuration ~= 20
+	warn(Prompt.HoldDuration)
+	warn(Prompt.HoldDuration <= 0.1)
 	if Prompt.HoldDuration <= 0.1 then
-		repeat
-			fireproximityprompt(Prompt)
-			task.wait()
-		until Prompt == nil or Prompt.Parent == nil
-	else
-		Lib.LookTowards(Prompt.Parent.Position, true)
-		local HB = GSRun.Heartbeat:Connect(function()
-			Prompt.RequiresLineOfSight = false
-			Prompt.Enabled = true
-		end)
-		repeat
-			pcall(function()
-				if not HoldingPrompt then
-					VIM:SendKeyEvent(false, Prompt.KeyboardKeyCode, false, game)
-				end
-				repeat
-					task.wait(0.05)
-					VIM:SendKeyEvent(true, Prompt.KeyboardKeyCode, false, game)
-				until HoldingPrompt or Prompt == nil or Prompt.Parent == nil
+		if Lib.InstantLegit then
+			Lib.LookTowards(Prompt.Parent.Position, true)
+			local HB = GSRun.Heartbeat:Connect(function()
+				Prompt.RequiresLineOfSight = false
+				Prompt.Enabled = true
 			end)
+			repeat
+				task.wait(0.05)
+				VIM:SendKeyEvent(true, Enum.KeyCode.F, false, game)
+				task.wait(0.05)
+				VIM:SendKeyEvent(false, Enum.KeyCode.F, false, game)
+			until Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt
+			Lib.LookTowards(nil, false)
+			HB:Disconnect()
+		else
+			repeat
+				fireproximityprompt(Prompt)
+				task.wait()
+			until Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt
+		end
+	else
+		if Lib.UseOldInteract then
+			Lib.OldInteract(Prompt)
+			return
+		end
+		local Time = DateTime.now().UnixTimestampMillis
+		local EndTime = Time + (Prompt.HoldDuration * 1000)
+		Prompt.RequiresLineOfSight = false
+		Lib.LookTowards(Prompt.Parent.Position, true)
+				--[[
+				repeat
+			if Prompt and Prompt.Parent and (Prompt.Parent.Position - LocalCharacter:GetPivot().Position).Magnitude >= 15 then
+				LocalCharacter:MoveTo(Prompt.Parent.Position)
+			end
 			task.wait()
-		until Prompt == nil or Prompt.Parent == nil
-		HB:Disconnect()
+		until Time > EndTime or Prompt == nil or Prompt.Parent == nil
+		--]]
+		repeat
+			GSRS:FindFirstChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("StartInteraction"):FireServer(Prompt)
+			task.wait(Prompt.HoldDuration)
+			GSRS:FindFirstChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("CompleteInteraction"):FireServer(Prompt)
+		until Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt or not Prompt.Enabled
+		Lib.LookTowards(nil, false)
 	end
 end
 
-function Lib.GotoAndGrab(Prompt:ProximityPrompt)
-	Lib.Move(Prompt.Parent.Position)
+function Lib.GotoAndGrab(Prompt:ProximityPrompt, Hide:BoolValue)
+	Lib.Move(Prompt.Parent.Position, Hide)
 	task.wait(0.05)
 	Lib.Interact(Prompt)
 end
@@ -207,7 +277,7 @@ function Lib.ThrowBag()
 	GSRS.RS_Package.Remotes.ThrowBag:FireServer(Vector3.new(0, 0, 0))
 end
 
-Lib.FloorPart = workspace.BagSecuredArea.FloorPart
+Lib.EscapePart = workspace.BagSecuredArea.FloorPart
 
 GSRun.Heartbeat:Connect(function()
 	Lib.Spawned = #LocalPlayer.Backpack:GetChildren() >= 2
