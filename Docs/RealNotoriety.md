@@ -102,7 +102,7 @@ Instantly Masks Up With `Item` Equipped.
 ## Yell
 
 ```lua
-Lib.SelectEquipment(YellAt: any): ()
+Lib.Yell(YellAt: any): ()
 ```
 
 Yells At `YellAt`
@@ -116,7 +116,7 @@ Yells At `YellAt`
 ## Restart
 
 ```lua
-Lib.SelectEquipment(Force: boolean): ()
+Lib.Restart(Force: boolean): ()
 ```
 
 Restarts The Heist, Having `Force` Be false Will Vote Restart, Else Forcefully Restarts.
