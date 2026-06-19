@@ -20,7 +20,7 @@ Tween Moves Your Character At `Lib.TweenSpeed` Studs/Second.
 ### Parameters
 
  * `Position` - Position To Move To.
- * `Hide` - Wether To Hide Under The Map While Moving.
+ * `Hide` - Whether To Hide Under The Map While Moving.
 
 ---
 
@@ -79,7 +79,7 @@ Readies Up.
 
 ### Parameters
 
- * `Ready` - Wether To Ready Or Unready.
+ * `Ready` - Whether To Ready Or Unready.
  * `Force` - Instantly Sets To "Ready Locked"
  * `Class` - Which Loadout/Class To Use.
 
@@ -123,7 +123,7 @@ Restarts The Heist, Having `Force` Be false Will Vote Restart, Else Forcefully R
 
 ### Parameters
 
- * `Force` - Wether To Forcefully Restart.
+ * `Force` - Whether To Forcefully Restart.
 
 ---
 
@@ -158,7 +158,7 @@ Drops Any Bag You Have With 0 Velocity.
 Lib.HasOwnership(Part: BasePart): boolean
 ```
 
-Returns Wether You Have NetworkOwnership Of A Part.
+Returns Whether You Have NetworkOwnership Of A Part.
 
 ### Parameters
 
@@ -178,7 +178,7 @@ Moves `Bag` To `Position` Either Once Or Until Parent Changes (From `WaitForPare
 
  * `Bag` - The Model Of The Bag.
  * `Position` - Where To Move The Bag To.
- * `WaitForParent` - Wether To Wait Until The Bag's Parent Changes.
+ * `WaitForParent` - Whether To Wait Until The Bag's Parent Changes.
 
 ---
 
@@ -238,7 +238,37 @@ Goes To `Prompt`.Parent And Interacts With It.
 ### Parameters
 
  * `Prompt` - The ProximityPrompt To Interact With.
- * `Hide` - Wether To Hide Under The Map While Moving.
+ * `Hide` - Whether To Hide Under The Map While Moving.
+
+---
+
+## GetXPLevel
+
+```lua
+Lib.GetXPLevel(From?: number, To: number): ()
+```
+
+Gets The XP Required To Go From Level `From` To Level `To`.
+
+### Parameters
+
+ * `From` - The Starting Level.
+ * `To` - The Ending Level.
+
+---
+
+## GetXPLevelMutator
+
+```lua
+Lib.GetXPLevelMutator(From?: number, To: number): ()
+```
+
+Gets The Mutator XP Required To Go From Mutator Level `From` To Level `To`.
+
+### Parameters
+
+ * `From` - The Starting Mutator Level.
+ * `To` - The Ending Mutator Level.
 
 ---
 
@@ -258,7 +288,7 @@ Lib.EscapePart: BasePart | nil
 Lib.Spawned: boolean
 ```
 
-Wether Or Not You Have Spawned Into The Game. Returns false In The Lobby.
+Whether Or Not You Have Spawned Into The Game. Returns false In The Lobby.
 
 ---
 
