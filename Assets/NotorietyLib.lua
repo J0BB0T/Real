@@ -161,9 +161,9 @@ end
 
 function Lib.Restart(Force:boolean)
 	if Force then
-	--	GSRS:WaitForChild("RS_Package").Remotes.ForceReset:FireServer()
+		GSRS:WaitForChild("RS_Package").Remotes.ForceReset:FireServer()
 	else
-	--	GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
+	-GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
 	end
 end
 
@@ -213,12 +213,13 @@ function Lib.Interact(Prompt:ProximityPrompt)
 			GSRS:FindFirstChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("StartInteraction"):FireServer(Prompt)
 			task.wait(Prompt.HoldDuration)
 			GSRS:FindFirstChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("CompleteInteraction"):FireServer(Prompt)
+			fireproximityprompt(Prompt)
 		until Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt or not Prompt.Enabled
 		Lib.LookTowards(nil, false)
 	end
 end
 
-function Lib.GotoAndGrab(Prompt:ProximityPrompt, Hide:BoolValue)
+function Lib.GotoAndGrab(Prompt:ProximityPrompt, Hide:boolean)
 	Lib.Move(Prompt.Parent.Position, Hide)
 	task.wait(0.05)
 	Lib.Interact(Prompt)
@@ -269,21 +270,39 @@ function Lib.MoveBag(Bag:Model, Position:Vector3, WaitForParent:boolean)
 	end)
 end
 
-function Lib.HitEvent(Item)
-	GSRS:WaitForChild("RS_Package").Assets.Remotes.HitObject:FireServer(LocalCharacter:FindFirstChildWhichIsA("Tool"), Item, false, nil, nil, vector.create(0, 0, 0), 100, nil, vector.create(0, 0, 0))
+function Lib.HitEvent(Item:Instance, Damage:number)
+	GSRS:WaitForChild("RS_Package").Assets.Remotes.HitObject:FireServer(LocalCharacter:FindFirstChildWhichIsA("Tool"), Item, false, nil, nil, vector.create(0, 0, 0), Damage or 100, nil, vector.create(0, 0, 0))
 end
 
 function Lib.ThrowBag()
 	GSRS.RS_Package.Remotes.ThrowBag:FireServer(Vector3.new(0, 0, 0))
 end
 
+function Lib.GetXPLevel(From, To)
+	From = From or 0
+	local Return = 0
+	for i=From, To - 1 do
+		Return += i * 1018.93 + i^2.976664
+	end
+	return Return
+end
+function Lib.GetXPLevelMutator(From, To)
+	From = From or 0
+	local Return = 0
+	for i=From, To - 1 do
+		Return += 5000 + i^1.25
+	end
+	return Return
+end
+
 Lib.EscapePart = workspace.BagSecuredArea.FloorPart
 
 GSRun.Heartbeat:Connect(function()
 	Lib.Spawned = #LocalPlayer.Backpack:GetChildren() >= 2
+	Lib.Assault = LocalPlayer.PlayerGui.SG_Package.MainGui.PoliceAssault.Visible
 	Lib.Yell(TempYell)
 end)
 
 getgenv().NotoLib = Lib
 
-return Lib
+return Lib	
