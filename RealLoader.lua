@@ -912,6 +912,22 @@ Converted = Converted or {script.Parent}
 
 local UI = Converted[1].Container
 local Container = UI:WaitForChild("Container")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+
+pcall(function()
+	UI.Parent = nil
+	pcall(function()
+		UI.Parent = gethui()
+	end)
+	pcall(function()
+		if UI.Parent == nil then
+			UI.Parent = game:GetService("CoreGui")
+		end
+	end)
+	if UI.Parent == nil then
+		UI.Parent = LocalPlayer.PlayerGui
+	end
+end)
 
 local GSTween = game:GetService("TweenService")
 
