@@ -908,7 +908,9 @@ Converted[98].Parent = Converted[2]
 
 -- RealInst2Lua v1.1 - Competed In 1633ms - [910] Lines Created - [98] Instances Converted - [0] / [0] Scripts Converted
 
-local UI = script.Parent:WaitForChild("Container")
+Converted = Converted or {script.Parent}
+
+local UI = Converted[1].Container
 local Container = UI:WaitForChild("Container")
 
 local GSTween = game:GetService("TweenService")
