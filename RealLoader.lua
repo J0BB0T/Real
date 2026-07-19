@@ -910,22 +910,23 @@ Converted[98].Parent = Converted[2]
 
 Converted = Converted or {script.Parent}
 
-local UI = Converted[1].Container
+local SGUI = Converted[1]
+local UI = SGUI.Container
 local Container = UI:WaitForChild("Container")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 
 pcall(function()
-	UI.Parent = nil
+	SGUI.Parent = nil
 	pcall(function()
-		UI.Parent = gethui()
+		SGUI.Parent = gethui()
 	end)
 	pcall(function()
-		if UI.Parent == nil then
-			UI.Parent = game:GetService("CoreGui")
+		if SGUI.Parent == nil then
+			SGUI.Parent = game:GetService("CoreGui")
 		end
 	end)
-	if UI.Parent == nil then
-		UI.Parent = LocalPlayer.PlayerGui
+	if SGUI.Parent == nil then
+		SGUI.Parent = LocalPlayer.PlayerGui
 	end
 end)
 
