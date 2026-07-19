@@ -970,7 +970,6 @@ local function OpenUI(Open:boolean)
 		if Container.Real.Visible then
 			Size = UDim2.new(0.5, 0, 0.5, 0)
 		end
-		
 		GSTween:Create(UI, TweenInfo.new(0.5, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {["Size"] = Size}):Play()
 		GSTween:Create(UI, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {["GroupTransparency"] = 0}):Play()
 		task.wait(0.5)
@@ -996,9 +995,9 @@ end
 
 local function Run(Source:string)
 	if GetURL(Source) == nil then
-		loadstring(Source)
+		loadstring(Source)()
 	else
-		loadstring(GetURL(Source))
+		loadstring(GetURL(Source))()
 	end
 end
 
