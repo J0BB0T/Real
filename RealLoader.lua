@@ -1058,3 +1058,14 @@ RegisterQuick(Container.Real.AntiHub)
 for i, v in UI:GetDescendants() do
 	AddButton(v)
 end
+
+UI.Container.Main.RunCustom.Activated:Connect(function()
+	Run(UI.Container.Main.Input.Text)
+	OpenUI(false)
+end)
+UI.Container.Main.Input.Focused:Connect(function()
+	GSTween:Create(UI.Container.Main.Input, TweenInfo.new(0.1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {["BackgroundColor3"] = Color3.fromRGB(60, 60, 60)}):Play()
+end)
+UI.Container.Main.Input.FocusLost:Connect(function()
+	GSTween:Create(UI.Container.Main.Input, TweenInfo.new(0.1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {["BackgroundColor3"] = Color3.fromRGB(40, 40, 40)}):Play()
+end)
