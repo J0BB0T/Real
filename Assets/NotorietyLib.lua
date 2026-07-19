@@ -163,7 +163,7 @@ function Lib.Restart(Force:boolean)
 	if Force then
 		GSRS:WaitForChild("RS_Package").Remotes.ForceReset:FireServer()
 	else
-	-GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
+		GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
 	end
 end
 
@@ -305,4 +305,4 @@ end)
 
 getgenv().NotoLib = Lib
 
-return Lib	
+return Lib
