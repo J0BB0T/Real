@@ -295,10 +295,10 @@ Whether Or Not You Have Spawned Into The Game. Returns false In The Lobby.
 ## Tools
 
 ```lua
-Lib.Tools: {Tool} | nil
+Lib.Tools: {Tool}
 ```
 
-**[IN-GAME ONLY]** A Dictionary Of Tools That You Have. (Mask, Primary, Secondary, Melee, Gadget)
+**[IN-GAME ONLY]** A Dictionary Of Tools That You Have. (Mask, Primary, Secondary, Melee, Gadget), Returns An Empty Table If In The Lobby.
 
 ---
 
