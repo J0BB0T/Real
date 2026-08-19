@@ -331,32 +331,32 @@ pcall(function()
 	LocalCharacter.ChildAdded:Connect(function(Inst)
 		if Inst:IsA("Tool") then
 			if Inst.Name == "Mask" then
-				Tools.Mask = Inst
+				Lib.Tools.Mask = Inst
 			end
 			if Inst:FindFirstChild("Primary") then
-				Tools.Primary = Inst
+				Lib.Tools.Primary = Inst
 			elseif Inst:FindFirstChild("Secondary") then
-				Tools.Secondary = Inst
+				Lib.Tools.Secondary = Inst
 			elseif Inst:FindFirstChild("Melee") then
-				Tools.Melee = Inst
+				Lib.Tools.Melee = Inst
 			elseif Inst:FindFirstChild("Gadget") then
-				Tools.Gadget = Inst
+				Lib.Tools.Gadget = Inst
 			end
 		end
 	end)
 	for i, v in LocalCharacter:GetChildren() do
 		if v:IsA("Tool") then
 			if v.Name == "Mask" then
-				Tools.Mask = v
+				Lib.Tools.Mask = v
 			end
 			if v:FindFirstChild("Primary") then
-				Tools.Primary = v
+				Lib.Tools.Primary = v
 			elseif v:FindFirstChild("Secondary") then
-				Tools.Secondary = v
+				Lib.Tools.Secondary = v
 			elseif v:FindFirstChild("Melee") then
-				Tools.Melee = v
+				Lib.Tools.Melee = v
 			elseif v:FindFirstChild("Gadget") then
-				Tools.Gadget = v
+				Lib.Tools.Gadget = v
 			end
 		end
 	end
@@ -364,32 +364,32 @@ end)
 LocalPlayer.Backpack.ChildAdded:Connect(function(Inst)
 	if Inst:IsA("Tool") then
 		if Inst.Name == "Mask" then
-			Tools.Mask = Inst
+			Lib.Tools.Mask = Inst
 		end
 		if Inst:FindFirstChild("Primary") then
-			Tools.Primary = Inst
+			Lib.Tools.Primary = Inst
 		elseif Inst:FindFirstChild("Secondary") then
-			Tools.Secondary = Inst
+			Lib.Tools.Secondary = Inst
 		elseif Inst:FindFirstChild("Melee") then
-			Tools.Melee = Inst
+			Lib.Tools.Melee = Inst
 		elseif Inst:FindFirstChild("Gadget") then
-			Tools.Gadget = Inst
+			Lib.Tools.Gadget = Inst
 		end
 	end
 end)
 for i, v in LocalPlayer.Backpack:GetChildren() do
 	if v:IsA("Tool") then
 		if v.Name == "Mask" then
-			Tools.Mask = v
+			Lib.Tools.Mask = v
 		end
 		if v:FindFirstChild("Primary") then
-			Tools.Primary = v
+			Lib.Tools.Primary = v
 		elseif v:FindFirstChild("Secondary") then
-			Tools.Secondary = v
+			Lib.Tools.Secondary = v
 		elseif v:FindFirstChild("Melee") then
-			Tools.Melee = v
+			Lib.Tools.Melee = v
 		elseif v:FindFirstChild("Gadget") then
-			Tools.Gadget = v
+			Lib.Tools.Gadget = v
 		end
 	end
 end
