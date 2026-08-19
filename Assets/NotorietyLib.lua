@@ -1,3 +1,12 @@
+if not getgenv then
+	function getgenv()
+		return _G.NotoLibGGV
+	end
+	if _G.NotoLibGGV == nil then
+		_G.NotoLibGGV = {}
+	end
+end
+
 if getgenv().NotoLib then
 	return getgenv().NotoLib
 end
@@ -10,7 +19,10 @@ local GSRS = game:GetService("ReplicatedStorage")
 local GSPP = game:GetService("ProximityPromptService")
 local GSRun = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
-local LocalCharacter = LocalPlayer.Character or LocalPlayer.Character:Wait()
+local LocalCharacter = LocalPlayer.Character
+LocalPlayer.CharacterAdded:Connect(function(char)
+	LocalCharacter = char
+end)
 local TempYell = {}
 Lib.TweenSpeed = 75
 Lib.UseOldInteract = false
@@ -295,13 +307,92 @@ function Lib.GetXPLevelMutator(From, To)
 	return Return
 end
 
-Lib.EscapePart = workspace.BagSecuredArea.FloorPart
+pcall(function()
+	Lib.EscapePart = workspace.BagSecuredArea.FloorPart
+end)
+
+task.spawn(function()
+	Lib.DamageEvent = GSRS:WaitForChild("RS_Package"):WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("Damage")
+end)
 
 GSRun.Heartbeat:Connect(function()
 	Lib.Spawned = #LocalPlayer.Backpack:GetChildren() >= 2
-	Lib.Assault = LocalPlayer.PlayerGui.SG_Package.MainGui.PoliceAssault.Visible
-	Lib.Yell(TempYell)
+	pcall(function()
+		Lib.Assault = LocalPlayer.PlayerGui.SG_Package.MainGui.PoliceAssault.Visible
+	end)
+	pcall(function()
+		Lib.Yell(TempYell)
+	end)
 end)
+
+Lib.Tools = {}
+
+pcall(function()
+	LocalCharacter.ChildAdded:Connect(function(Inst)
+		if Inst:IsA("Tool") then
+			if Inst.Name == "Mask" then
+				Tools.Mask = Inst
+			end
+			if Inst:FindFirstChild("Primary") then
+				Tools.Primary = Inst
+			elseif Inst:FindFirstChild("Secondary") then
+				Tools.Secondary = Inst
+			elseif Inst:FindFirstChild("Melee") then
+				Tools.Melee = Inst
+			elseif Inst:FindFirstChild("Gadget") then
+				Tools.Gadget = Inst
+			end
+		end
+	end)
+	for i, v in LocalCharacter:GetChildren() do
+		if v:IsA("Tool") then
+			if v.Name == "Mask" then
+				Tools.Mask = v
+			end
+			if v:FindFirstChild("Primary") then
+				Tools.Primary = v
+			elseif v:FindFirstChild("Secondary") then
+				Tools.Secondary = v
+			elseif v:FindFirstChild("Melee") then
+				Tools.Melee = v
+			elseif v:FindFirstChild("Gadget") then
+				Tools.Gadget = v
+			end
+		end
+	end
+end)
+LocalPlayer.Backpack.ChildAdded:Connect(function(Inst)
+	if Inst:IsA("Tool") then
+		if Inst.Name == "Mask" then
+			Tools.Mask = Inst
+		end
+		if Inst:FindFirstChild("Primary") then
+			Tools.Primary = Inst
+		elseif Inst:FindFirstChild("Secondary") then
+			Tools.Secondary = Inst
+		elseif Inst:FindFirstChild("Melee") then
+			Tools.Melee = Inst
+		elseif Inst:FindFirstChild("Gadget") then
+			Tools.Gadget = Inst
+		end
+	end
+end)
+for i, v in LocalPlayer.Backpack:GetChildren() do
+	if v:IsA("Tool") then
+		if v.Name == "Mask" then
+			Tools.Mask = v
+		end
+		if v:FindFirstChild("Primary") then
+			Tools.Primary = v
+		elseif v:FindFirstChild("Secondary") then
+			Tools.Secondary = v
+		elseif v:FindFirstChild("Melee") then
+			Tools.Melee = v
+		elseif v:FindFirstChild("Gadget") then
+			Tools.Gadget = v
+		end
+	end
+end
 
 getgenv().NotoLib = Lib
 
