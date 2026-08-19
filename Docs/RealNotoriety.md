@@ -292,6 +292,27 @@ Whether Or Not You Have Spawned Into The Game. Returns false In The Lobby.
 
 ---
 
+## Tools
+
+```lua
+Lib.Tools: {Tool} | nil
+```
+
+**[IN-GAME ONLY]** A Dictionary Of Tools That You Have. (Mask, Primary, Secondary, Melee, Gadget)
+
+---
+
+## DamageEvent
+
+```lua
+Lib.DamageEvent: RemoteEvent | nil
+```
+
+**[IN-GAME ONLY]** The Event That Damages Things.
+
+---
+
+
 ## OldInteract
 
 ```lua
