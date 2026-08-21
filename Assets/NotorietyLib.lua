@@ -23,6 +23,7 @@ local LocalCharacter = LocalPlayer.Character
 LocalPlayer.CharacterAdded:Connect(function(char)
 	LocalCharacter = char
 end)
+local RSPack = GSRS:WaitForChild("RS_Package", 5)
 local TempYell = {}
 Lib.TweenSpeed = 75
 Lib.UseOldInteract = false
@@ -141,41 +142,41 @@ function Lib.PlaceEquipment(Item:string, Position:CFrame, Target:Instance)
 		Position = CFrame.new(Position)
 	end
 	if Target == nil then Target = false end
-	GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("PlaceEquipment"):FireServer(Item, Position, Target)
+	RSPack:WaitForChild("Remotes"):WaitForChild("PlaceEquipment"):FireServer(Item, Position, Target)
 end
 
 function Lib.SelectEquipment(Item:string)
 	if Item == PlayerData.Classes:WaitForChild("Using").Equipment.Value then
-		GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("SetEquipmentType"):FireServer("Equipment")
+		RSPack:WaitForChild("Remotes"):WaitForChild("SetEquipmentType"):FireServer("Equipment")
 	else
-		GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("SetEquipmentType"):FireServer("SecondEquipment")
+		RSPack:WaitForChild("Remotes"):WaitForChild("SetEquipmentType"):FireServer("SecondEquipment")
 	end
 end
 
 function Lib.ReadyUp(Ready:boolean, Force:boolean, Class:string)
 	if Ready then
-		GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("PlayerReady"):FireServer(Class or "Class 1", Force)
+		RSPack:WaitForChild("Remotes"):WaitForChild("PlayerReady"):FireServer(Class or "Class 1", Force)
 	else
-		GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("PlayerReady"):FireServer()
+		RSPack:WaitForChild("Remotes"):WaitForChild("PlayerReady"):FireServer()
 	end
 end
 function Lib.MaskUp(Item:string)
-	GSRS:WaitForChild("RS_Package"):WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("MaskOn"):FireServer(true, Item or "Primary")
-	GSRS:WaitForChild("RS_Package"):WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("MaskOn"):FireServer()
+	RSPack:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("MaskOn"):FireServer(true, Item or "Primary")
+	RSPack:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("MaskOn"):FireServer()
 end
 
 function Lib.Yell(YellAt:any)
 	if type(YellAt) ~= "table" then
 		YellAt = {YellAt}
 	end
-	GSRS:WaitForChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("PlayerYell"):FireServer(YellAt)
+	RSPack:WaitForChild("Remotes"):WaitForChild("PlayerYell"):FireServer(YellAt)
 end
 
 function Lib.Restart(Force:boolean)
 	if Force then
-		GSRS:WaitForChild("RS_Package").Remotes.ForceReset:FireServer()
+		RSPack.Remotes.ForceReset:FireServer()
 	else
-		GSRS:WaitForChild("RS_Package").Remotes.VoteReset:FireServer()
+		RSPack.Remotes.VoteReset:FireServer()
 	end
 end
 
@@ -222,9 +223,9 @@ function Lib.Interact(Prompt:ProximityPrompt)
 		until Time > EndTime or Prompt == nil or Prompt.Parent == nil
 		--]]
 		repeat
-			GSRS:FindFirstChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("StartInteraction"):FireServer(Prompt)
+			RSPack:WaitForChild("Remotes"):WaitForChild("StartInteraction"):FireServer(Prompt)
 			task.wait(Prompt.HoldDuration)
-			GSRS:FindFirstChild("RS_Package"):WaitForChild("Remotes"):WaitForChild("CompleteInteraction"):FireServer(Prompt)
+			RSPack:WaitForChild("Remotes"):WaitForChild("CompleteInteraction"):FireServer(Prompt)
 			fireproximityprompt(Prompt)
 		until Prompt == nil or Prompt.Parent == nil or PromptTriggered == Prompt or not Prompt.Enabled
 		Lib.LookTowards(nil, false)
@@ -283,11 +284,11 @@ function Lib.MoveBag(Bag:Model, Position:Vector3, WaitForParent:boolean)
 end
 
 function Lib.HitEvent(Item:Instance, Damage:number)
-	GSRS:WaitForChild("RS_Package").Assets.Remotes.HitObject:FireServer(LocalCharacter:FindFirstChildWhichIsA("Tool"), Item, false, nil, nil, vector.create(0, 0, 0), Damage or 100, nil, vector.create(0, 0, 0))
+	RSPack.Assets.Remotes.HitObject:FireServer(LocalCharacter:FindFirstChildWhichIsA("Tool"), Item, false, nil, nil, vector.create(0, 0, 0), Damage or 100, nil, vector.create(0, 0, 0))
 end
 
 function Lib.ThrowBag()
-	GSRS.RS_Package.Remotes.ThrowBag:FireServer(Vector3.new(0, 0, 0))
+	RSPack.Remotes.ThrowBag:FireServer(Vector3.new(0, 0, 0))
 end
 
 function Lib.GetXPLevel(From, To)
@@ -312,7 +313,7 @@ pcall(function()
 end)
 
 task.spawn(function()
-	Lib.DamageEvent = GSRS:WaitForChild("RS_Package"):WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("Damage")
+	Lib.DamageEvent = RSPack:WaitForChild("Assets"):WaitForChild("Remotes"):WaitForChild("Damage")
 end)
 
 GSRun.Heartbeat:Connect(function()
